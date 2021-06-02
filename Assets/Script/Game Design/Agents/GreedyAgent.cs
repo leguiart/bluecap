@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using UnityEngine;
+using Assets.Script.Game_Design;
+using Assets.Script.Game_Design.Enums;
 
 public class GreedyAgent : BaseAgent
 {

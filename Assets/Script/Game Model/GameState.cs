@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Assets.Script.Game_Design;
+using Assets.Script.Game_Design.Enums;
 
 /*
  * This is used for recording a snapshot of a game at a point in time. This is very useful

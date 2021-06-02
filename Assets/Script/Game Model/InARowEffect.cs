@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Assets.Script.Game_Design;
+using Assets.Script.Game_Design.Enums;
 
 //Thinking about it now, this should be called InASequence or something. Ah, regrets.
 public class InARowEffect : Effect

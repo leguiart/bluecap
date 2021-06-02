@@ -5,6 +5,8 @@ using System.Runtime.InteropServices.ComTypes;
 using System.Xml.Schema;
 using UnityEngine;
 using DG.Tweening;
+using Assets.Script.Game_Design;
+using Assets.Script.Game_Design.Enums;
 
 public class BoardManager : MonoBehaviour
 {

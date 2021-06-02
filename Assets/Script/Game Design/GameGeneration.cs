@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Assets.Script.Game_Design;
+using Assets.Script.Game_Design.Enums;
 
 public class GameGeneration : MonoBehaviour
 {
@@ -118,7 +120,7 @@ public class GameGeneration : MonoBehaviour
 
     public static GameGeneration instance;
     void Awake(){
-        GameGeneration.instance = this;
+        instance = this;
     }
 
 }

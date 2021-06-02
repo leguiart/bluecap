@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using UnityEngine;
+using Assets.Script.Game_Design;
+
 
 public class RandomAgent : BaseAgent
 {
