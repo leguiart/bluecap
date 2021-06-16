@@ -1,0 +1,21 @@
+BaseGameGenerator: Starting game generation run...
+BaseGameGenerator: Best novel game found in generation: 1(1/5):
+Players take turns placing pieces on the 4x9 board.
+
+If a player places a piece at either end of a line of opponent pieces, the captured pieces are removed from play.
+All pieces on the board fall right.
+If there are at least 3 pieces of the same type in a sequence (in any direction), then the pieces flip to the other player's colour.
+
+A player wins If they have at least 3 pieces in a sequence (in any direction)
+
+A player loses if they have 15 pieces on the board. 
+Best novel game rules found in generation 1(1/5): 
+Players take turns placing pieces on the 4x9 board.
+
+If a player places a piece at either end of a line of opponent pieces, the captured pieces are removed from play.
+All pieces on the board fall right.
+If there are at least 3 pieces of the same type in a sequence (in any direction), then the pieces flip to the other player's colour.
+
+A player wins If they have at least 3 pieces in a sequence (in any direction)
+
+A player loses if they have 15 pieces on the board.

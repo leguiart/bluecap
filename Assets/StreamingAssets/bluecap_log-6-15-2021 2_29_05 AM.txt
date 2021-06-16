@@ -1,0 +1,83 @@
+BaseGameGenerator: Starting game generation run...
+BaseGameGenerator: Best novel game found in generation: 0(1/2):
+Players take turns placing pieces on the 8x5 board.
+
+All pieces on the board fall right.
+If a player places a piece at either end of a line of opponent pieces, the captured pieces flip to the player's colour.
+If there are at least 3 pieces of the same type in a sequence (in any direction), then pieces connected to the latest move flip to the other player's colour.
+
+A player wins If they have at least 5 pieces in a sequence (horizontal or vertical lines only)
+
+A player loses if they have 5 pieces on the board. 
+Best novel game rules found in generation 0(1/2): 
+Players take turns placing pieces on the 8x5 board.
+
+All pieces on the board fall right.
+If a player places a piece at either end of a line of opponent pieces, the captured pieces flip to the player's colour.
+If there are at least 3 pieces of the same type in a sequence (in any direction), then pieces connected to the latest move flip to the other player's colour.
+
+A player wins If they have at least 5 pieces in a sequence (horizontal or vertical lines only)
+
+A player loses if they have 5 pieces on the board.
+BaseGameGenerator: Best novel game found in generation: 1(1/2):
+Players take turns placing pieces on the 8x5 board.
+
+All pieces on the board fall right.
+If a player places a piece at either end of a line of opponent pieces, the captured pieces flip to the player's colour.
+If there are at least 3 pieces of the same type in a sequence (in any direction), then pieces connected to the latest move flip to the other player's colour.
+
+A player wins If they have at least 5 pieces in a sequence (horizontal or vertical lines only)
+
+A player loses if they have 5 pieces on the board. 
+Best novel game rules found in generation 1(1/2): 
+Players take turns placing pieces on the 8x5 board.
+
+All pieces on the board fall right.
+If a player places a piece at either end of a line of opponent pieces, the captured pieces flip to the player's colour.
+If there are at least 3 pieces of the same type in a sequence (in any direction), then pieces connected to the latest move flip to the other player's colour.
+
+A player wins If they have at least 5 pieces in a sequence (horizontal or vertical lines only)
+
+A player loses if they have 5 pieces on the board.
+BaseGameGenerator: Best scores for run(1/2): 
+BaseGameGenerator: 0.96, 0.92
+BaseGameGenerator: 0.78, 0.89
+BaseGameGenerator: Best game code for (1/2):
+Players take turns placing pieces on the 8x5 board.
+
+All pieces on the board fall right.
+If a player places a piece at either end of a line of opponent pieces, the captured pieces flip to the player's colour.
+If there are at least 3 pieces of the same type in a sequence (in any direction), then pieces connected to the latest move flip to the other player's colour.
+
+A player wins If they have at least 5 pieces in a sequence (horizontal or vertical lines only)
+
+A player loses if they have 5 pieces on the board. 
+Best game rules for run (1/2): 
+Players take turns placing pieces on the 8x5 board.
+
+All pieces on the board fall right.
+If a player places a piece at either end of a line of opponent pieces, the captured pieces flip to the player's colour.
+If there are at least 3 pieces of the same type in a sequence (in any direction), then pieces connected to the latest move flip to the other player's colour.
+
+A player wins If they have at least 5 pieces in a sequence (horizontal or vertical lines only)
+
+A player loses if they have 5 pieces on the board.
+BaseGameGenerator: Generation Process Complete for run (1/2)!
+Finished evaluating games for run (1/2), best game rules found:
+Players take turns placing pieces on the 8x5 board.
+
+All pieces on the board fall right.
+If a player places a piece at either end of a line of opponent pieces, the captured pieces flip to the player's colour.
+If there are at least 3 pieces of the same type in a sequence (in any direction), then pieces connected to the latest move flip to the other player's colour.
+
+A player wins If they have at least 5 pieces in a sequence (horizontal or vertical lines only)
+
+A player loses if they have 5 pieces on the board.
+Copy this Code into the Play scene to test it yourself:
+BOARD 8 5
+FALL RIGHT
+CAP FLIP
+MATCH LINE 3 CASCADE
+WIN MATCH CARDINAL 5
+LOSE COUNT 5
+

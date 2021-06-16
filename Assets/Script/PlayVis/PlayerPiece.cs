@@ -2,21 +2,26 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerPiece : MonoBehaviour
+namespace Assets.PlayVis
 {
-    
-    public SpriteRenderer mainSprite;
-    public SpriteRenderer outlineSprite;
+    public class PlayerPiece : MonoBehaviour
+    {
 
-    public Sprite[] shapes;
+        public SpriteRenderer mainSprite;
+        public SpriteRenderer outlineSprite;
 
-    public void SetShape(int shapeCode){
-        mainSprite.sprite = shapes[shapeCode];
-        outlineSprite.sprite = shapes[shapeCode];
-    }
+        public Sprite[] shapes;
 
-    public void PieceMoved(int tox, int toy){
-        //todo
-        //huh guess i just left this one huh? that's cool. that happens.
+        public void SetShape(int shapeCode)
+        {
+            mainSprite.sprite = shapes[shapeCode];
+            outlineSprite.sprite = shapes[shapeCode];
+        }
+
+        public void PieceMoved(int tox, int toy)
+        {
+            //todo
+            //huh guess i just left this one huh? that's cool. that happens.
+        }
     }
 }

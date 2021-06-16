@@ -2,27 +2,33 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BoardPiece : MonoBehaviour
+namespace Assets.PlayVis
 {
+    public class BoardPiece : MonoBehaviour
+    {
 
-    public SpriteRenderer sprite;
+        public SpriteRenderer sprite;
 
-    [HideInInspector]
-    public int x;
-    [HideInInspector]
-    public int y;
+        [HideInInspector]
+        public int x;
+        [HideInInspector]
+        public int y;
 
-    public void OnMouseEnter(){
+        public void OnMouseEnter()
+        {
+
+        }
+
+        public void OnMouseExit()
+        {
+
+        }
+
+        public void OnMouseDown()
+        {
+            BoardManager.instance.TapTile(x, y);
+        }
+
 
     }
-
-    public void OnMouseExit(){
-
-    }
-
-    public void OnMouseDown(){
-        BoardManager.instance.TapTile(x, y);
-    }
-
-
 }

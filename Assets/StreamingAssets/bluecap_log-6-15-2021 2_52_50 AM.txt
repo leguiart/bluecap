@@ -1,0 +1,103 @@
+BaseGameGenerator: Starting game generation run...
+BaseGameGenerator: Best novel game found in generation: 1(1/2):
+Players take turns placing pieces on the 11x5 board.
+
+If there are at least 5 pieces of the same type in a sequence (in any direction), then the pieces are removed from play.
+
+A player wins if they have 5 pieces on the board.
+
+A player loses If they have at least 4 pieces in a sequence (in a horizontal row only) 
+Best novel game rules found in generation 1(1/2): 
+Players take turns placing pieces on the 11x5 board.
+
+If there are at least 5 pieces of the same type in a sequence (in any direction), then the pieces are removed from play.
+
+A player wins if they have 5 pieces on the board.
+
+A player loses If they have at least 4 pieces in a sequence (in a horizontal row only)
+BaseGameGenerator: Best scores for run(1/2): 
+BaseGameGenerator: 0.7
+BaseGameGenerator: Average scores for run(1/2): 
+BaseGameGenerator: 0.62
+BaseGameGenerator: Best game code for (1/2):
+Players take turns placing pieces on the 11x5 board.
+
+If there are at least 5 pieces of the same type in a sequence (in any direction), then the pieces are removed from play.
+
+A player wins if they have 5 pieces on the board.
+
+A player loses If they have at least 4 pieces in a sequence (in a horizontal row only) 
+Best game rules for run (1/2): 
+Players take turns placing pieces on the 11x5 board.
+
+If there are at least 5 pieces of the same type in a sequence (in any direction), then the pieces are removed from play.
+
+A player wins if they have 5 pieces on the board.
+
+A player loses If they have at least 4 pieces in a sequence (in a horizontal row only)
+BaseGameGenerator: Generation Process Complete for run (1/2)!
+Finished evaluating games for run (1/2), best game rules found:
+Players take turns placing pieces on the 11x5 board.
+
+If there are at least 5 pieces of the same type in a sequence (in any direction), then the pieces are removed from play.
+
+A player wins if they have 5 pieces on the board.
+
+A player loses If they have at least 4 pieces in a sequence (in a horizontal row only)
+Copy this Code into the Play scene to test it yourself:
+BOARD 11 5
+MATCH LINE 5 DELETE
+WIN COUNT 5
+LOSE MATCH ROW 4
+
+BaseGameGenerator: Best novel game found in generation: 1(2/2):
+Players take turns placing pieces on the 12x5 board.
+
+All pieces on the board fall down.
+
+A player wins If they have at least 4 pieces in a sequence (in a horizontal row only)
+
+A player loses if they have 10 pieces on the board. 
+Best novel game rules found in generation 1(2/2): 
+Players take turns placing pieces on the 12x5 board.
+
+All pieces on the board fall down.
+
+A player wins If they have at least 4 pieces in a sequence (in a horizontal row only)
+
+A player loses if they have 10 pieces on the board.
+BaseGameGenerator: Best scores for run(2/2): 
+BaseGameGenerator: 0.9
+BaseGameGenerator: Average scores for run(2/2): 
+BaseGameGenerator: 0.655
+BaseGameGenerator: Best game code for (2/2):
+Players take turns placing pieces on the 12x5 board.
+
+All pieces on the board fall down.
+
+A player wins If they have at least 4 pieces in a sequence (in a horizontal row only)
+
+A player loses if they have 10 pieces on the board. 
+Best game rules for run (2/2): 
+Players take turns placing pieces on the 12x5 board.
+
+All pieces on the board fall down.
+
+A player wins If they have at least 4 pieces in a sequence (in a horizontal row only)
+
+A player loses if they have 10 pieces on the board.
+BaseGameGenerator: Generation Process Complete for run (2/2)!
+Finished evaluating games for run (2/2), best game rules found:
+Players take turns placing pieces on the 12x5 board.
+
+All pieces on the board fall down.
+
+A player wins If they have at least 4 pieces in a sequence (in a horizontal row only)
+
+A player loses if they have 10 pieces on the board.
+Copy this Code into the Play scene to test it yourself:
+BOARD 12 5
+FALL DOWN
+WIN MATCH ROW 4
+LOSE COUNT 10
+
