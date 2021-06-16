@@ -1,6 +1,8 @@
+D:\Users\luis_\Documents\bluecap\Assets\log4net.config
 D:\Users\luis_\Documents\bluecap\Assets\Bluecap.Lib.dll
 D:\Users\luis_\Documents\bluecap\Assets\Bluecap.Lib.pdb
-D:\Users\luis_\Documents\bluecap\Bluecap.Lib\obj\Debug\Bluecap.Lib.csprojAssemblyReference.cache
 D:\Users\luis_\Documents\bluecap\Bluecap.Lib\obj\Debug\Bluecap.Lib.csproj.CoreCompileInputs.cache
+D:\Users\luis_\Documents\bluecap\Bluecap.Lib\obj\Debug\Bluecap.Lib.csproj.CopyComplete
 D:\Users\luis_\Documents\bluecap\Bluecap.Lib\obj\Debug\Bluecap.Lib.dll
 D:\Users\luis_\Documents\bluecap\Bluecap.Lib\obj\Debug\Bluecap.Lib.pdb
+D:\Users\luis_\Documents\bluecap\Bluecap.Lib\obj\Debug\Bluecap.Lib.csprojAssemblyReference.cache

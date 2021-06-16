@@ -29,17 +29,6 @@ namespace Assets.Script.Game_Design
         public int greedySkilledMatches = 10;
         public int skilledMirrorMatches = 10;
 
-        //[Header("Scene Interface")]
-        //public bool interfaceEnabled = false;
-        //public TMPro.TextMeshProUGUI bestRulesText;
-        //public TMPro.TextMeshProUGUI bestScoresText;
-        //public TMPro.TextMeshProUGUI bestOverallScoreText;
-        //public TMPro.TextMeshProUGUI currentRulesText;
-        //public TMPro.TextMeshProUGUI currentScoresText;
-        //public TMPro.TextMeshProUGUI progressBarText;
-        //public TMPro.TextMeshProUGUI timeRemainingText;
-        //public UnityEngine.UI.Image progressBar;
-
         [Header("Best Rules")]
         [TextArea]
         public string bestRulesCode;

@@ -4,6 +4,7 @@ using UnityEngine;
 using Assets.Script.Game_Design;
 using Bluecap.Lib.Game_Design.Enums;
 using Bluecap.Lib.Game_Model;
+using Bluecap.Lib.Game_Design.Generators;
 
 namespace Assets.Script.Game_Design 
 {
@@ -31,6 +32,7 @@ namespace Assets.Script.Game_Design
 
 
         private const int boardWidthId = 0, boardHeightId = 1, winConditionId = 2, loseConditionId = 3, effectsId = 4;
+        private GenerationSettings settings;
         //Rather than min/max numbers that we randomise between, we might just want to offer fixed values.
         //I chose these as they seem like chunky milestones that would be interesting to try. This is
         //also an example of data which depends on other data (i.e. board size) which we don't validate here.
@@ -38,128 +40,32 @@ namespace Assets.Script.Game_Design
 
         public void Mutate(int geneToMutate, List<object> genotype)
         {
-            switch (geneToMutate)
-            {
-                case boardWidthId:
-                    genotype[geneToMutate] =  GenerateRandomWidth();
-                    break;
-                case boardHeightId:
-                    genotype[geneToMutate] = GenerateRandomHeight();
-                    break;
-                case winConditionId:
-                    genotype[geneToMutate] = GenerateCondition();
-                    break;
-                case loseConditionId:
-                    genotype[geneToMutate] = GenerateCondition();
-                    break;
-                case effectsId:
-                    if(Random.Range(0f, 1f) <= 0.2f)
-                    {
-                        genotype[geneToMutate] = GenerateEffects(minUpdateEffects, maxUpdateEffects);
-                    }
-                    else
-                    {
-                        int effectsToSubstitute = Random.Range(0, ((List<Effect>)genotype[geneToMutate]).Count);
-                        System.Type t1, t2;
-                        do
-                        {
-                            var eff = GenerateEffect();
-                            t1 = ((List<Effect>)genotype[geneToMutate])[effectsToSubstitute].GetType();
-                            t2 = eff.GetType();
-                        } while(!Equals(t1, t2));
-                    }
-                    break;
-                default:
-                    break;
-            }
+            GameGenerationUtils.Mutate(geneToMutate, genotype, settings);
         }
 
         public Condition GenerateCondition()
         {
-            //We only have two condition types: in-a-row, or piece count, so here we toss a coin
-            //to include them equally. You could parameterise this if you wanted, to tip the balance.
-            //Or you could balance it to reflect the actual distribution of rule types (i.e. there
-            //are more ways to make an in-a-row condition than a piece-count one).
-            if (Random.Range(0f, 1f) < 0.5f)
-            {
-                //g.winCondition =
-                //    new InARowCondition(
-                //        allowedLineDirections[Random.Range(0, allowedLineDirections.Length)],
-                //        Random.Range(minLineLength, maxLineLength + 1));
-                return new InARowCondition(
-                        allowedLineDirections[Random.Range(0, allowedLineDirections.Length)],
-                        Random.Range(minLineLength, maxLineLength + 1));
-            }
-            else
-            {
-                //g.winCondition =
-                //    new PieceCountCondition(
-                //        pieceCountTargets[Random.Range(0, pieceCountTargets.Length)]
-                //    );
-                return new PieceCountCondition(
-                        pieceCountTargets[Random.Range(0, pieceCountTargets.Length)]
-                    );
-            }
+            return GameGenerationUtils.GenerateCondition(settings);
         }
 
         public Effect GenerateEffect()
         {
-            Effect e = new Effect();
-            //3 effect types, so let's toss a, uh, 3-sided coin
-            switch (Random.Range(0, 3))
-            {
-                case 0:
-                    //Settle the board/fall pieces in a certain direction
-                    //g.updatePhase.Add(new FallPiecesEffect(allowedFallDirections[Random.Range(0, allowedFallDirections.Length)]));
-                    e = new FallPiecesEffect(allowedFallDirections[Random.Range(0, allowedFallDirections.Length)]);
-                    break;
-                case 1:
-                    //End-to-end piece capturing in the style of Reversi
-                    //g.updatePhase.Add(new CappedEffect(allowedTriggeredEffects[Random.Range(0, allowedTriggeredEffects.Length)]));
-                    e = new CappedEffect(allowedTriggeredEffects[Random.Range(0, allowedTriggeredEffects.Length)]);
-                    break;
-                case 2:
-                    //X-in-a-row logic
-                    //Note I reuse the valid triggered effects, and the valid line lengths. You could imagine
-                    //having custom limits here, or specifying it some other way.
-                    //g.updatePhase.Add(new InARowEffect(
-                    //    allowedTriggeredEffects[Random.Range(0, allowedTriggeredEffects.Length)],
-                    //    Random.Range(minLineLength, maxLineLength)));
-                    e = new InARowEffect(
-                        allowedTriggeredEffects[Random.Range(0, allowedTriggeredEffects.Length)],
-                        Random.Range(minLineLength, maxLineLength));
-                    break;
-            }
-            return e;
+            return GameGenerationUtils.GenerateEffect(settings);
         }
 
         public List<Effect> GenerateEffects(int minUpdateEffects, int maxUpdateEffects)
         {
-            //! Update Effects
-            int numberOfUpdateEffects = Random.Range(minUpdateEffects, maxUpdateEffects + 1);
-            Dictionary<System.Type, Effect> typeEffects = new Dictionary<System.Type, Effect>();
-            
-            //Lots more options here! We could stop duplicate effects in the same game, for example.
-            //As usual, we're keeping it simple here and not worrying, but try tweaking it!
-            for (int i = 0; i < numberOfUpdateEffects; i++)
-            {
-                var eff = GenerateEffect();
-                if (!typeEffects.ContainsKey(eff.GetType()))
-                    typeEffects.Add(eff.GetType(), eff);
-                else
-                    typeEffects[eff.GetType()] = eff;
-            }
-            return new List<Effect>(typeEffects.Values);
+            return GameGenerationUtils.GenerateEffects(settings);
         }
 
         public int GenerateRandomWidth()
         {
-            return Random.Range(minBoardDimension, maxBoardDimension + 1);
+            return GameGenerationUtils.GenerateRandomWidth(settings);
         }
 
         public int GenerateRandomHeight()
         {
-            return Random.Range(minBoardDimension, maxBoardDimension + 1);
+            return GameGenerationUtils.GenerateRandomHeight(settings);
         }
 
         /*
@@ -175,31 +81,28 @@ namespace Assets.Script.Game_Design
         */
         public BaseGame GenerateRandomGame()
         {
-            int w = GenerateRandomWidth();
-            int h = GenerateRandomHeight();
-            if (forceSquareBoard)
-            {
-                h = w;
-            }
-            BaseGame g = new BaseGame(w, h);
-
-            //! Win Condition
-            g.Genotype[winConditionId] = GenerateCondition();
-
-            //! Lose Condition
-            //You might want to make this a dice roll, like 50% of games have a loss condition.
-            if (includeLossCondition)
-                g.Genotype[loseConditionId] = GenerateCondition();
-
-
-            g.Genotype[effectsId] = GenerateEffects(minUpdateEffects, maxUpdateEffects);
-            return g;
+            return GameGenerationUtils.GenerateRandomGame(settings);
         }
 
 
         public static GameGeneration instance;
         void Awake()
         {
+            settings = new GenerationSettings()
+            {
+                minBoardDimension = minBoardDimension,
+                maxBoardDimension = maxBoardDimension,
+                forceSquareBoard = forceSquareBoard,
+                minUpdateEffects = minUpdateEffects,
+                maxUpdateEffects = maxUpdateEffects,
+                allowedFallDirections = allowedFallDirections,
+                allowedTriggeredEffects = allowedTriggeredEffects,
+                includeLossCondition = includeLossCondition,
+                allowedLineDirections = allowedLineDirections,
+                minLineLength = minLineLength,
+                maxLineLength = maxLineLength,
+                pieceCountTargets = pieceCountTargets,
+            };
             instance = this;
         }
 

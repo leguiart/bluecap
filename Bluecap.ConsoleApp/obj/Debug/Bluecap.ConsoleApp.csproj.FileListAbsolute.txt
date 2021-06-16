@@ -1,0 +1,9 @@
+D:\Users\luis_\Documents\bluecap\Assets\Bluecap.ConsoleApp.exe.config
+D:\Users\luis_\Documents\bluecap\Assets\Bluecap.ConsoleApp.exe
+D:\Users\luis_\Documents\bluecap\Assets\Bluecap.ConsoleApp.pdb
+D:\Users\luis_\Documents\bluecap\Assets\log4net.config
+D:\Users\luis_\Documents\bluecap\Bluecap.ConsoleApp\obj\Debug\Bluecap.ConsoleApp.csprojAssemblyReference.cache
+D:\Users\luis_\Documents\bluecap\Bluecap.ConsoleApp\obj\Debug\Bluecap.ConsoleApp.csproj.CoreCompileInputs.cache
+D:\Users\luis_\Documents\bluecap\Bluecap.ConsoleApp\obj\Debug\Bluecap.ConsoleApp.csproj.CopyComplete
+D:\Users\luis_\Documents\bluecap\Bluecap.ConsoleApp\obj\Debug\Bluecap.ConsoleApp.exe
+D:\Users\luis_\Documents\bluecap\Bluecap.ConsoleApp\obj\Debug\Bluecap.ConsoleApp.pdb
