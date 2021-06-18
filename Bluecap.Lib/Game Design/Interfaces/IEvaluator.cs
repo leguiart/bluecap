@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,6 +10,6 @@ namespace Bluecap.Lib.Game_Design.Interfaces
     public interface IEvaluator<T> where T : class
     {
         IEnumerable<T> Evaluate(IEnumerable<T> population);
-
+        ConcurrentDictionary<string, ConcurrentBag<float>> GenerationScores { get; set; }
     }
 }

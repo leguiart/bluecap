@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Bluecap.Lib.Game_Design.Generators
@@ -28,7 +29,8 @@ namespace Bluecap.Lib.Game_Design.Generators
                     genotype[geneToMutate] = GenerateCondition(settings);
                     break;
                 case effectsId:
-                    System.Random rand = new Random();
+                    Thread.Sleep(20);
+                    System.Random rand = new Random((int)DateTime.Now.Ticks & 0x0000FFFF);
                     if (rand.NextDouble()*5f <= 0.2f)
                     {
                         genotype[geneToMutate] = GenerateEffects(settings);
@@ -56,7 +58,8 @@ namespace Bluecap.Lib.Game_Design.Generators
             //to include them equally. You could parameterise this if you wanted, to tip the balance.
             //Or you could balance it to reflect the actual distribution of rule types (i.e. there
             //are more ways to make an in-a-row condition than a piece-count one).
-            Random rand = new Random();
+            Thread.Sleep(20);
+            Random rand = new Random((int)DateTime.Now.Ticks & 0x0000FFFF);
             if (rand.NextDouble() < 0.5f)
             {
                 //g.winCondition =
@@ -82,7 +85,8 @@ namespace Bluecap.Lib.Game_Design.Generators
         public static Effect GenerateEffect(GenerationSettings settings)
         {
             Effect e = new Effect();
-            Random rand = new Random();
+            Thread.Sleep(20);
+            Random rand = new Random((int)DateTime.Now.Ticks & 0x0000FFFF);
             //3 effect types, so let's toss a, uh, 3-sided coin
             switch (rand.Next(0, 3))
             {
@@ -114,7 +118,8 @@ namespace Bluecap.Lib.Game_Design.Generators
         public static List<Effect> GenerateEffects(GenerationSettings settings)
         {
             //! Update Effects
-            Random rand = new Random();
+            Thread.Sleep(20);
+            Random rand = new Random((int)DateTime.Now.Ticks & 0x0000FFFF);
             int numberOfUpdateEffects = rand.Next(settings.minUpdateEffects, settings.maxUpdateEffects + 1);
             Dictionary<System.Type, Effect> typeEffects = new Dictionary<System.Type, Effect>();
 
@@ -133,13 +138,15 @@ namespace Bluecap.Lib.Game_Design.Generators
 
         public static int GenerateRandomWidth(GenerationSettings settings)
         {
-            Random rand = new Random();
+            Thread.Sleep(20);
+            Random rand = new Random((int)DateTime.Now.Ticks & 0x0000FFFF);           
             return rand.Next(settings.minBoardDimension, settings.maxBoardDimension + 1);
         }
 
         public static int GenerateRandomHeight(GenerationSettings settings)
         {
-            Random rand = new Random();
+            Thread.Sleep(20);
+            Random rand = new Random((int)DateTime.Now.Ticks & 0x0000FFFF);
             return rand.Next(settings.minBoardDimension, settings.maxBoardDimension + 1);
         }
 

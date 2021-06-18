@@ -1,6 +1,7 @@
-﻿using Bluecap.Lib.Extensions;
-using Bluecap.Lib.Game_Design.Interfaces;
+﻿using Bluecap.Lib.Game_Design.Interfaces;
 using Bluecap.Lib.Game_Model;
+using Bluecap.Lib.Utils;
+using Bluecap.Lib.Utils.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,10 +18,14 @@ namespace Bluecap.Lib.Game_Design.Generators
         public float pc, pm;
 
         public bool parallelEvaluation = false;
+        int maxNoveltyArchiveSize = 20, kNeighbors = 5;
+        float noveltyThreshold = 15f;
+        List<BaseGame> Population;
+        List<(string, float)> NoveltyArchive;
+        List<string> BestDistinctGames;
 
-        List<BaseGame> Population, BestGames;
-        readonly List<float> bestScoresOfRun = new List<float>();
-        readonly List<float> averageScoresOfRun = new List<float>();
+        readonly List<float> bestScoresOfRun = new List<float>(), mostNovelScoresOfRun = new List<float>();      
+        readonly Dictionary<string, List<float>> averageScoresOfRun = new Dictionary<string, List<float>>() { {"noveltyScore", new List<float>() }, { "evaluatedScore", new List<float>() }, { "playerBiasScore", new List<float>() }, { "greedIsGoodScore", new List<float>() }, { "skillIsBetterScore", new List<float>() }, { "drawsAreBadScore", new List<float>() }, { "highSkillBalanceScore", new List<float>() } };
 
         int evaluationsSoFar, totalEvaluations;
         float bestScore;
@@ -34,6 +39,11 @@ namespace Bluecap.Lib.Game_Design.Generators
             this.runs = runs;
             this.pc = pc;
             this.pm = pm;
+            BestDistinctGames = new List<string>();
+            //BestGames = new List<BaseGame>();
+            //bestRulesCodes = new List<string>();
+            NoveltyArchive = new List<(string, float)>();
+            this.gameEvaluator = gameEvaluator;
         }
 
         //List<GameObject> evaluator;
@@ -41,13 +51,62 @@ namespace Bluecap.Lib.Game_Design.Generators
         {
             //evaluator = new List<GameObject>();
             List<BaseGame> population = new List<BaseGame>();
-            for (int i = 0; i < populationSize; i++)
+            while(NoveltyArchive.Count < 15)
             {
-                population.Add(GameGenerationUtils.GenerateRandomGame(settings));
+                NoveltyArchive.Clear();
+                population.Clear();
+                for (int i = 0; i < populationSize; i++)
+                    population.Add(GameGenerationUtils.GenerateRandomGame(settings));
                 //evaluator.Add(new GameObject($"evaluator{i}", typeof(GameEvaluation)));
+                _ = EvaluateNovelty(population);
             }
+            NoveltyArchive.Clear();
 
             return population;
+        }
+        public IEnumerable<BaseGame> EvaluateNovelty(IEnumerable<BaseGame> population)
+        {
+            int i = 0;
+            var poplist = population.ToList();
+            foreach(var organism in population)
+            {
+                organism.noveltyScore = AverageKNNDistance(i, poplist, NoveltyArchive, kNeighbors);
+                if(organism.noveltyScore > noveltyThreshold)
+                {
+                    var gameCode = organism.GameToCode();
+                    if(!NoveltyArchive.Select(s => s.Item1).Contains(gameCode))
+                    {
+                        NoveltyArchive.Add((organism.GameToCode(), organism.noveltyScore));
+                        NoveltyArchive = NoveltyArchive.OrderBy(s => s.Item2).ToList();
+                        if (NoveltyArchive.Count > maxNoveltyArchiveSize)
+                            NoveltyArchive.RemoveAt(0);
+                    }
+
+                }
+            }
+            return population;
+        }
+
+        public float AverageKNNDistance(int i, List<BaseGame> population, List<(string, float)> noveltyArchive, int k)
+        {
+            var distances = new List<(BaseGame, float)>();
+            for(int j = 0; j < population.Count; j++)
+            {
+                if (j != i)
+                    distances.Add((population[j],StringUtils.LevenshteinDistance(population[i].GameToCode(), population[j].GameToCode())));
+            }
+            for (int j = 0; j < noveltyArchive.Count; j++)
+            {
+                distances.Add((population[j], StringUtils.LevenshteinDistance(population[i].GameToCode(), noveltyArchive[j].Item1)));
+            }
+            distances = distances.OrderBy(s => s.Item2).ToList();
+            float avgKnnDist = 0f;
+            for (int j = 0; j < k && j < distances.Count; j++)
+            {
+                avgKnnDist += distances[j].Item2;
+            }
+            avgKnnDist /= Math.Min(k, distances.Count);
+            return avgKnnDist;
         }
 
         public override void StartGenerationProcess()
@@ -57,14 +116,13 @@ namespace Bluecap.Lib.Game_Design.Generators
             {
 
                 bestScoresOfRun.Clear();
-                averageScoresOfRun.Clear();
+                foreach(var kv in averageScoresOfRun)
+                    averageScoresOfRun[kv.Key].Clear();
                 evaluationsSoFar = 0;
                 bestScore = float.MinValue;
                 //Overestimate initial evaluation time as: (100 turns per game) * (max time per turn) * (number of games to test)
                 totalEvaluations = populationSize * maxIter;
                 //estimatedTimeLeft = 100 * GameEvaluation.instance.TimeAllottedPerTurn * totalEvaluations;
-                BestGames = new List<BaseGame>();
-                bestRulesCodes = new List<string>();
                 Population = Populate();
                 int its = 1;
                 while (its <= maxIter)
@@ -84,16 +142,22 @@ namespace Bluecap.Lib.Game_Design.Generators
                 logger.Info(bestScores);
 
                 logger.Info($"Average scores for run({run}/{runs}): ");
-                string averageScores = string.Empty;
-                foreach (var avg in averageScoresOfRun)
-                    averageScores += avg.ToString() + ", ";
-                averageScores = averageScores.TrimEnd(',', ' ');
-                logger.Info(averageScores);
+                foreach(var kv in averageScoresOfRun)
+                {
+                    string averageScores = string.Empty;
+                    foreach (var avg in kv.Value)
+                        averageScores += avg.ToString() + ", ";
+                    averageScores = averageScores.TrimEnd(',', ' ');
+                    logger.Info($"{kv.Key}:\n{averageScores}");
+                }
 
-                logger.Info($"Best game code for ({run}/{runs}):\n{bestGame.GameToString()} \nBest game rules for run ({run}/{runs}): \n{bestGame.GameToString()}");
+
+                logger.Info($"Best game code for ({run}/{runs}):\n{bestGame.GameToCode()}\n" +
+                    $"Best game rules for run ({run}/{runs}): \n{bestGame.GameToString()}\n" +
+                    $"With score {bestScore}");
                 logger.Info($"Generation Process Complete for run ({run}/{runs})!");
                 gameTestingFinished = true;
-                // Debug.Log("Best game score: "+bestScore);
+                // Console.WriteLine("Best game score: "+bestScore);
             }
 
         }
@@ -142,14 +206,30 @@ namespace Bluecap.Lib.Game_Design.Generators
 
         private void Select(int currentRun, int generation)
         {
+            //Genotypic evaluation (novelty considered only)
+            Console.WriteLine($"Starting genotype evaluation for generation: {generation} ({currentRun}/{runs})");
+            Population = EvaluateNovelty(Population).ToList();
+            Console.WriteLine($"Novelty Archive size: {NoveltyArchive.Count}");
+            //Phenotypic evaluation
+            Console.WriteLine($"Starting parallel phenotyptic evaluation for generation: {generation} ({currentRun}/{runs})");
             Population = gameEvaluator.Evaluate(Population).ToList();
 
+            //Get the average score metrics for each type of matchup, for each generation for data analysis purposes
+            var gScores = gameEvaluator.GenerationScores.Select(s => { return new KeyValuePair<string, float>(s.Key, s.Value.Average()); }).ToDictionary(k => k.Key, v => v.Value);
 
-            evaluationsSoFar += Population.Count;
-            bestRulesCodes.Clear();
+            //evaluationsSoFar += Population.Count;
+            //bestRulesCodes.Clear();
 
 
+            //Order population by novelty score (Novelty search terminology) (genotype novelty evaluation score (Ventura's terminology))
+            Population = Population.OrderBy(s => s.noveltyScore).ToList();
+            mostNovelScoresOfRun.Add(Population.Last().noveltyScore);
+
+            //Order population by goal-orienteed fitness (Novelty search terminology) (phenotype evaluation score (Ventura's terminology))
             Population = Population.OrderBy(s => s.evaluatedScore).ToList();
+            bestScoresOfRun.Add(Population.Last().evaluatedScore);
+
+
             if (Population.Last().evaluatedScore > bestScore)
             {
                 bestGame = Population.Last();
@@ -158,28 +238,33 @@ namespace Bluecap.Lib.Game_Design.Generators
             }
 
 
-            bestScoresOfRun.Add(Population.Last().evaluatedScore);
-            averageScoresOfRun.Add(Population.Select(s => s.evaluatedScore).ToList().Average());
+            foreach (var g in gScores)
+                averageScoresOfRun[g.Key].Add(g.Value);
+            averageScoresOfRun["evaluatedScore"].Add(Population.Select(s => s.evaluatedScore).ToList().Average());
+            averageScoresOfRun["noveltyScore"].Add(Population.Select(s => s.noveltyScore).ToList().Average());
 
-            var BestGamesGenotypes = BestGames.Select(s => s.Genotype).ToList();
+            //Get best game so far we hadn't found up until now
             for (int i = populationSize - 1; i > -1; i--)
             {
-                if (!BestGamesGenotypes.Contains(Population[i].Genotype))
+                if (!BestDistinctGames.Contains(Population[i].GameToCode()))
                 {
-                    BestGames.Add(Population[i]);
-                    var code = BestGames.Last().GameToCode();
-                    logger.Info($"Best novel game found in generation: {generation}({currentRun}/{runs}):\n{bestGame.GameToString()} \nBest novel game rules found in generation {generation}({currentRun}/{runs}): \n{bestGame.GameToString()}\nWith score: {bestScore}");
+                    BestDistinctGames.Add(Population[i].GameToCode());
+                    logger.Info($"Best distinct game code in generation: {generation}({currentRun}/{runs}):\n{bestGame.GameToCode()}\n" +
+                        $"Best distinct game rules found in generation {generation}({currentRun}/{runs}): \n{bestGame.GameToString()}\n" +
+                        $"With score: {bestScore}");
                     break;
                 }
 
             }
 
-            BestGames = BestGames.OrderBy(s => s.evaluatedScore).ToList();
-            //if (BestGames.Count > populationSize)
-            //    BestGames.RemoveAt(0);
-            foreach (var bestGame in BestGames)
-                bestRulesCodes.Add(bestGame.GameToCode());
+            //BestGames = BestGames.OrderBy(s => s.evaluatedScore).ToList();
+            ////if (BestGames.Count > populationSize)
+            ////    BestGames.RemoveAt(0);
+            //foreach (var bestGame in BestGames)
+            //    bestRulesCodes.Add(bestGame.GameToCode());
 
+
+            //Fitness proportional selection: Roulette wheel
             float fitnessSum = Population.Select(s => s.evaluatedScore).Sum();
             float sum = 0;
             var cProbSel = Population.Select(s => sum += s.evaluatedScore / fitnessSum).ToList();

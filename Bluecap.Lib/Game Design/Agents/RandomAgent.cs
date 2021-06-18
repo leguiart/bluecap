@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using Bluecap.Lib.Game_Model;
@@ -17,10 +18,11 @@ namespace Bluecap.Lib.Game_Design.Agents
         *  turn here so that's not an option. The random agent is the closest we get.
         * 
         */
-
+        private readonly Random rand;
         public RandomAgent(int playerCode)
         {
             this.playerCode = playerCode;
+            rand = new System.Random((int)DateTime.Now.Ticks & 0x0000FFFF);
         }
 
         //It's possible to make games that are broken - e.g. you can never win, so eventually
@@ -40,7 +42,7 @@ namespace Bluecap.Lib.Game_Design.Agents
             //NOTE: use timeLimit in addition to cutoff, if TapAction takes a lot of time for some reason.
             var timer = Stopwatch.StartNew();
             var timeLimitInMillis = timeLimit * 1000f;
-            System.Random rand = new System.Random();
+            
             for (int i = 0; i < cutoff; i++)
             {
                 //Check if the time is up!
@@ -52,7 +54,7 @@ namespace Bluecap.Lib.Game_Design.Agents
                 }
             }
 
-            // Debug.LogError("Couldn't take a turn after "+cutoff+" tries.");
+            // Console.WriteLineError("Couldn't take a turn after "+cutoff+" tries.");
             return false;
         }
 

@@ -39,6 +39,7 @@ namespace Bluecap.Lib.Game_Model
         //that generate games, because they can remember what score this game got previously to avoid
         //having to re-evaluate it. You can see this used in the Scrappy Game Generator.
         public float evaluatedScore;
+        public float noveltyScore;
         //Deciding how to flag wins always gets me. For this I've gone for:
         //1 = Player 1 win
         //2 = Player 2 win
@@ -139,7 +140,6 @@ namespace Bluecap.Lib.Game_Model
         * For example, I can imagine adding a lot of rule components that want to check for
         * lines of pieces.
         */
-
         public List<Point> FindLines(Direction direction, int length, Player p, bool checkOnly = false, bool checkFromLastPos = false) {
             int cValue = 0;
             List<Point> matchList = new List<Point>();
@@ -316,7 +316,7 @@ namespace Bluecap.Lib.Game_Model
         //so each rule can explain itself. This isn't always possible, but our test system is simple enough to work.
         public virtual void PrintGame()
         {
-            //Debug.Log(GameToString());
+            //Console.WriteLine(GameToString());
         }
 
         public string GameToString() {
@@ -359,7 +359,7 @@ namespace Bluecap.Lib.Game_Model
                 }
                 board += line + "\n";
             }
-            //Debug.Log(board);
+            //Console.WriteLine(board);
         }
 
         /*
@@ -401,7 +401,7 @@ namespace Bluecap.Lib.Game_Model
             if (s[1] == "COUNT") {
                 return new PieceCountCondition(int.Parse(s[2]));
             }
-            //Debug.LogError("Unknown condition: " + string.Join(" ", s));
+            //Console.WriteLineError("Unknown condition: " + string.Join(" ", s));
             return null;
         }
 
@@ -422,7 +422,7 @@ namespace Bluecap.Lib.Game_Model
             if (s[0] == "CAP") {
                 return new CappedEffect((TriggeredEffect)System.Enum.Parse(typeof(TriggeredEffect), s[1]));
             }
-            //Debug.LogError("Unknown effect: " + string.Join(" ", s));
+            //Console.WriteLineError("Unknown effect: " + string.Join(" ", s));
             return null;
         }
 

@@ -2,6 +2,7 @@
 using Bluecap.Lib.Game_Design.Interfaces;
 using Bluecap.Lib.Game_Model;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Bluecap.Lib.Game_Design.Evaluators
 {
-    public class StandardEvaluator : IEvaluator<BaseGame>
+    public class PhenotypicEvaluator : IEvaluator<BaseGame>
     {
         public float TimeAllottedPerTurn;
         public int numberOfGamesToTest;
@@ -26,8 +27,9 @@ namespace Bluecap.Lib.Game_Design.Evaluators
         public float estimatedTotalTime;
 
         public float estimatedTimeLeft;
+        public ConcurrentDictionary<string, ConcurrentBag<float>> GenerationScores { get; set; }
 
-        public StandardEvaluator(float TimeAllottedPerTurn = 1f, int numberOfGamesToTest = 10, int randomRandomMatches = 20, int greedyRandomMatches = 10, int greedySkilledMatches = 10, int skilledMirrorMatches = 10)
+        public PhenotypicEvaluator(float TimeAllottedPerTurn = 1f, int numberOfGamesToTest = 10, int randomRandomMatches = 20, int greedyRandomMatches = 10, int greedySkilledMatches = 10, int skilledMirrorMatches = 10)
         {
             this.TimeAllottedPerTurn = TimeAllottedPerTurn;
             this.numberOfGamesToTest = numberOfGamesToTest;
@@ -35,22 +37,29 @@ namespace Bluecap.Lib.Game_Design.Evaluators
             this.greedyRandomMatches = greedyRandomMatches;
             this.greedySkilledMatches = greedySkilledMatches;
             this.skilledMirrorMatches = skilledMirrorMatches;
+            GenerationScores = new ConcurrentDictionary<string, ConcurrentBag<float>>();
+            GenerationScores.TryAdd("playerBiasScore", new ConcurrentBag<float>());
+            GenerationScores.TryAdd("greedIsGoodScore", new ConcurrentBag<float>());
+            GenerationScores.TryAdd("skillIsBetterScore", new ConcurrentBag<float>());
+            GenerationScores.TryAdd("drawsAreBadScore", new ConcurrentBag<float>());
+            GenerationScores.TryAdd("highSkillBalanceScore", new ConcurrentBag<float>());
         }
 
         public IEnumerable<BaseGame> Evaluate(IEnumerable<BaseGame> population)
         {
-            ParallelOptions options = new ParallelOptions()
+            //ParallelOptions options = new ParallelOptions()
+            //{
+            //    MaxDegreeOfParallelism = 6
+            //};
+            Parallel.ForEach(population, (s, _, index) =>
             {
-                MaxDegreeOfParallelism = 8
-            };
-            Parallel.ForEach(population, options, (s) =>
-            {
-                ScoreGameParallelFor(s);
+                ScoreGameParallelFor(s, index);
             });
+            
             return population;
         }
 
-        private void PlayGameParallelFor(BaseGame game, BaseAgent player1, BaseAgent player2, int turnLimit = 100)
+        private void PlayGameParallelFor(BaseGame game, BaseAgent player1, BaseAgent player2, long index, int turnLimit = 100)
         {
             int turn = 0;
             //? Always reset the game before playing.
@@ -94,20 +103,20 @@ namespace Bluecap.Lib.Game_Design.Evaluators
 
             if (turn >= turnLimit)
             {
-                // Debug.Log("Game tied: turn limit exceeded.");
+                Console.WriteLine("Game tied: turn limit exceeded.");
             }
             else
             {
                 switch (game.endStatus)
                 {
                     case 1:
-                        // Debug.Log("Player 1 wins (in "+turn+" turns)");
+                        Console.WriteLine("Player 1 wins (in "+turn+" turns)");
                         break;
                     case 2:
-                        // Debug.Log("Player 2 wins (in "+turn+" turns)");
+                        Console.WriteLine("Player 2 wins (in "+turn+" turns)");
                         break;
                     case 3:
-                        // Debug.Log("Game tied (in "+turn+" turns)");
+                        Console.WriteLine("Game tied (in "+turn+" turns)");
                         break;
                 }
             }
@@ -115,7 +124,7 @@ namespace Bluecap.Lib.Game_Design.Evaluators
             //yield return 0;
         }
 
-        public void ScoreGameParallelFor(BaseGame game)
+        public void ScoreGameParallelFor(BaseGame game, long index)
         {
             //? Reset
             float playerBiasScore = 0f;
@@ -139,7 +148,7 @@ namespace Bluecap.Lib.Game_Design.Evaluators
                 //NOTE MJ: Playing the games could be coroutines, so they don't block UI.
                 //res is redundant game.endStatus already has info.
                 //yield return PlayGame(game, randomAgent1, randomAgent2);
-                PlayGameParallelFor(game, randomAgent1, randomAgent2);
+                PlayGameParallelFor(game, randomAgent1, randomAgent2, index);
                 if (game.endStatus == 1) firstWon++;
                 if (game.endStatus == 2) secondWon++;
                 //? Yield after each playout - we could yield more frequently, this is OK though.
@@ -150,6 +159,7 @@ namespace Bluecap.Lib.Game_Design.Evaluators
 
             //scoresSoFar = "First Play Bias: " + UIManager.Instance.ToScore(playerBiasScore) + "\n";
             //yield return UIManager.Instance.SetCurrentScoresText(scoresSoFar);
+            Console.WriteLine($"Random vs. Random done! (game: {index})");
 
             //? We could also add in a measure of 'decisiveness' - i.e. games shouldn't end in draws.
             //? However for random agents this might happen just because they aren't very good.
@@ -167,7 +177,7 @@ namespace Bluecap.Lib.Game_Design.Evaluators
 
                 //NOTE MJ: Playing the games could be coroutines, so they don't block UI. res could be an out parameter.
                 //yield return PlayGame(game, randomAgent, greedyAgent);
-                PlayGameParallelFor(game, randomAgent, greedyAgent);
+                PlayGameParallelFor(game, randomAgent, greedyAgent, index);
                 if (game.endStatus == 1 + (i % 2))
                 {
                     randomAgentWon++;
@@ -176,7 +186,7 @@ namespace Bluecap.Lib.Game_Design.Evaluators
             }
 
             greedIsGoodScore = 1 - ((float)randomAgentWon / greedyRandomMatches);
-
+            Console.WriteLine($"Random vs. Greedy done! (game: {index})");
 
             //scoresSoFar += "Simple Beats Random: " + UIManager.Instance.ToScore(greedIsGoodScore) + "\n";
             //yield return UIManager.Instance.SetCurrentScoresText(scoresSoFar);
@@ -196,7 +206,7 @@ namespace Bluecap.Lib.Game_Design.Evaluators
 
                 //NOTE MJ: Playing the games could be coroutines, so they don't block UI. res could be an out parameter.
                 //yield return PlayGame(game, skilledAgent, greedyAgent);
-                PlayGameParallelFor(game, skilledAgent, greedyAgent);
+                PlayGameParallelFor(game, skilledAgent, greedyAgent, index);
                 if (game.endStatus == 1 + (i % 2))
                 {
                     mctsAgentWon++;
@@ -205,6 +215,7 @@ namespace Bluecap.Lib.Game_Design.Evaluators
             }
 
             skillIsBetterScore = (float)mctsAgentWon / greedySkilledMatches;
+            Console.WriteLine($"MCTS vs. Greedy done! (game: {index})");
 
             //scoresSoFar += "Clever Beats Simple: " + UIManager.Instance.ToScore(skillIsBetterScore) + "\n";
             //yield return UIManager.Instance.SetCurrentScoresText(scoresSoFar);
@@ -225,7 +236,7 @@ namespace Bluecap.Lib.Game_Design.Evaluators
                 //                           "High Skill Mirror Matchup: Playing (" + i + "/" + skilledMirrorMatches + ")\n");
                 ////NOTE MJ: Playing the games could be coroutines, so they don't block UI. res could be an out parameter.
                 //yield return PlayGame(game, skilledAgent1, skilledAgent2);
-                PlayGameParallelFor(game, skilledAgent1, skilledAgent2);
+                PlayGameParallelFor(game, skilledAgent1, skilledAgent2, index);
                 if (game.endStatus == 1) firstPlayerWon++;
                 if (game.endStatus == 2) secondPlayerWon++;
                 if (game.endStatus == 3 || game.endStatus == 0) drawnGames++;
@@ -234,6 +245,7 @@ namespace Bluecap.Lib.Game_Design.Evaluators
 
             drawsAreBadScore = 1 - ((float)drawnGames / skilledMirrorMatches);
             highSkillBalanceScore = Math.Abs(firstPlayerWon - secondPlayerWon) / skilledMirrorMatches;
+            Console.WriteLine($"MCTS vs. MCTS done! (game: {index})");
 
             //yield return UIManager.Instance.SetCurrentScoresText(scoresSoFar + "Avoid Draws: " + UIManager.Instance.ToScore(drawsAreBadScore) + "\n" +
             //"High Skill Mirror Matchup: " + UIManager.Instance.ToScore(highSkillBalanceScore) + "\n");
@@ -242,21 +254,19 @@ namespace Bluecap.Lib.Game_Design.Evaluators
             //? some scores are more important than others, or we could partition them into "must-haves"
             //? and "nice-to-haves". I discuss this in the tutorial video.
 
-            // Debug.Log("Random vs. Random: "+playerBiasScore);
-            // Debug.Log("Greedy vs. Random: "+greedIsGoodScore);
-            // Debug.Log("MCTS vs. Greedy: "+skillIsBetterScore);
-            // Debug.Log("MCTS vs. MCTS (draws): "+drawsAreBadScore);
-            // Debug.Log("MCTS vs. MCTS (win balance): "+highSkillBalanceScore);
-
+            Console.WriteLine($"Random vs. Random (game: {index}): " + playerBiasScore);
+            Console.WriteLine($"Greedy vs. Random (game: {index}): " + greedIsGoodScore);
+            Console.WriteLine($"MCTS vs. Greedy (game: {index}): " + skillIsBetterScore);
+            Console.WriteLine($"MCTS vs. MCTS (draws) (game: {index}): " + drawsAreBadScore);
+            Console.WriteLine($"MCTS vs. MCTS (win balance) (game: {index}): " + highSkillBalanceScore);
+            GenerationScores["playerBiasScore"].Add(playerBiasScore);
+            GenerationScores["greedIsGoodScore"].Add(greedIsGoodScore);
+            GenerationScores["skillIsBetterScore"].Add(skillIsBetterScore);
+            GenerationScores["drawsAreBadScore"].Add(drawsAreBadScore);
+            GenerationScores["highSkillBalanceScore"].Add(highSkillBalanceScore);
+            //GenerationScores.Add(new Dictionary<string, float> { { "playerBiasScore", playerBiasScore }, { "greedIsGoodScore", greedIsGoodScore }, { "skillIsBetterScore", skillIsBetterScore }, { "drawsAreBadScore", drawsAreBadScore }, { "highSkillBalanceScore", highSkillBalanceScore } });
             game.evaluatedScore = (playerBiasScore + greedIsGoodScore + skillIsBetterScore + drawsAreBadScore + highSkillBalanceScore) / 5f;
         }
 
-        public void ScoreGamesParallel(List<BaseGame> games)
-        {
-            Parallel.ForEach(games, s =>
-            {
-                ScoreGameParallelFor(s);
-            });
-        }
     }
 }

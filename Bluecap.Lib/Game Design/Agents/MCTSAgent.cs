@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using Bluecap.Lib.Game_Model;
@@ -29,7 +30,7 @@ namespace Bluecap.Lib.Game_Design.Agents
 
         //More iterations = better search/better agent performance
         public int iterations = 100000;
-
+        readonly System.Random rand = new System.Random((int)DateTime.Now.Ticks & 0x0000FFFF);
         /// <summary>
         /// Take a turn, but use no more than the allotted time limit.
         /// </summary>
@@ -41,7 +42,7 @@ namespace Bluecap.Lib.Game_Design.Agents
 
             //bool wasInteractive = g.interactiveMode;
             //g.interactiveMode = false;
-            System.Random rand = new System.Random();
+            
             //NOTE: use timeLimit in addition to cutoff, if TapAction takes a lot of time for some reason.
             var timer = Stopwatch.StartNew();
             var timeLimitInMillis = timeLimit * 1000f;
@@ -84,7 +85,7 @@ namespace Bluecap.Lib.Game_Design.Agents
                         //? Now pick a child at random
                         //int randomChild = Random.Range(0, current.numChildren);
                         int randomChild = rand.Next(0, current.numChildren);
-                        // Debug.Log("Picking child "+randomChild+" of "+current.numChildren);
+                        // Console.WriteLine("Picking child "+randomChild+" of "+current.numChildren);
                         current = current.firstChild;
                         for (int i = 0; i < randomChild - 1; i++)
                         {
@@ -112,7 +113,7 @@ namespace Bluecap.Lib.Game_Design.Agents
             Node child = root.firstChild;
             while (child != null)
             {
-                //Debug.Log("Playing at "+child.ax+","+child.ay+" - sel: "+child.selections+", rew: "+child.score+", avg. rew: "+child.score/child.selections+", ucb: "+UCB(child));
+                //Console.WriteLine("Playing at "+child.ax+","+child.ay+" - sel: "+child.selections+", rew: "+child.score+", avg. rew: "+child.score/child.selections+", ucb: "+UCB(child));
                 if (child.selections > mostVisits)
                 {
                     mostVisits = child.selections;

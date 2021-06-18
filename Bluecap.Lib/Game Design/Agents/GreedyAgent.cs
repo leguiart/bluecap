@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using Bluecap.Lib.Game_Model;
@@ -23,10 +24,11 @@ namespace Bluecap.Lib.Game_Design.Agents
         *  of the really interesting challenges in designing AGD systems! 
         *  
         */
-
+        readonly Random rand;
         public GreedyAgent(int playerCode)
         {
             this.playerCode = playerCode;
+            rand = new System.Random((int)DateTime.Now.Ticks & 0x0000FFFF);
         }
 
         /// <summary>
@@ -88,7 +90,7 @@ namespace Bluecap.Lib.Game_Design.Agents
             EvaluatePossibleActions();
 
             //g.interactiveMode = wasInteractive;
-            System.Random rand = new System.Random();
+            
             if (bestActions.Count == 0)
             {
                 
@@ -105,7 +107,7 @@ namespace Bluecap.Lib.Game_Design.Agents
                     //this allows it to choose one random action after breaking out of the evaluate function!
                     if (timer.ElapsedMilliseconds > timeLimitInMillis) break;
                 }
-                // Debug.LogError("Unable to take a move");
+                // Console.WriteLineError("Unable to take a move");
                 return false;
             }
             else

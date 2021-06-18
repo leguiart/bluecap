@@ -6,7 +6,6 @@ using Debug = UnityEngine.Debug;
 using System.Collections;
 using System.Threading.Tasks;
 using Bluecap.Lib.Game_Model;
-using Bluecap.Lib.Extensions;
 
 namespace Assets.Script.Game_Design
 {
@@ -228,7 +227,7 @@ namespace Assets.Script.Game_Design
 
             for(int k= 0; k < probs.Count; k++)
             {
-                int j = cProbSel.BinarySearch2(probs[k]);
+                int j = cProbSel.BinarySearch(probs[k]);
                 Population[k] = Population[j];
             }
         }

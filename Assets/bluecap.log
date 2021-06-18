@@ -1,19 +1,125 @@
-2021-06-16 02:15:04,925 [1] INFO Bluecap.Lib.Game_Design.Interfaces.BaseGameGenerator - Starting game generation run...
-2021-06-16 02:16:31,233 [1] INFO Bluecap.Lib.Game_Design.Interfaces.BaseGameGenerator - Starting game generation run...
-2021-06-16 07:10:31,823 [1] INFO Bluecap.Lib.Game_Design.Interfaces.BaseGameGenerator - Best novel game found in generation: 1(1/3):
-Players take turns placing pieces on the 7x7 board.
+BOARD 5 6
+FALL DOWN
+WIN MATCH LINE 3
+LOSE MATCH LINE 3
 
-If a player places a piece at either end of a line of opponent pieces, the captured pieces are removed from play.
+BOARD 4 6
+CAP FLIP
+WIN COUNT 15
+LOSE COUNT 5
 
-A player wins If they have at least 6 pieces in a sequence (in any direction)
+BOARD 4 5
+MATCH LINE 3 FLIP
+CAP FLIP
+WIN MATCH CARDINAL 4
+LOSE MATCH LINE 3
 
-A player loses If they have at least 6 pieces in a sequence (in any direction) 
+2021-06-16 07:45:34,409 [1] INFO Bluecap.Lib.Game_Design.Interfaces.BaseGameGenerator - Starting game generation run...
+2021-06-16 08:14:28,212 [1] INFO Bluecap.Lib.Game_Design.Interfaces.BaseGameGenerator - Best novel game code in generation: 1(1/3):
+BOARD 5 5
+FALL LEFT
+WIN MATCH COL 4
+LOSE MATCH COL 4
+
+Best novel game rules found in generation 1(1/3): 
+Players take turns placing pieces on the 5x5 board.
+
+All pieces on the board fall left.
+
+A player wins If they have at least 4 pieces in a sequence (in a vertical column only)
+
+A player loses If they have at least 4 pieces in a sequence (in a vertical column only)
+With score: 0.66
+2021-06-16 08:33:48,612 [1] INFO Bluecap.Lib.Game_Design.Interfaces.BaseGameGenerator - Best novel game code in generation: 2(1/3):
+BOARD 5 5
+FALL LEFT
+WIN COUNT 10
+LOSE MATCH COL 4
+
+Best novel game rules found in generation 2(1/3): 
+Players take turns placing pieces on the 5x5 board.
+
+All pieces on the board fall left.
+
+A player wins if they have 10 pieces on the board.
+
+A player loses If they have at least 4 pieces in a sequence (in a vertical column only)
+With score: 0.7
+2021-06-16 08:48:20,203 [1] INFO Bluecap.Lib.Game_Design.Interfaces.BaseGameGenerator - Best novel game code in generation: 3(1/3):
+BOARD 4 5
+FALL LEFT
+WIN COUNT 10
+LOSE MATCH COL 4
+
+Best novel game rules found in generation 3(1/3): 
+Players take turns placing pieces on the 4x5 board.
+
+All pieces on the board fall left.
+
+A player wins if they have 10 pieces on the board.
+
+A player loses If they have at least 4 pieces in a sequence (in a vertical column only)
+With score: 0.7
+2021-06-16 12:02:22,660 [1] INFO Bluecap.Lib.Game_Design.Interfaces.BaseGameGenerator - Starting game generation run...
+2021-06-16 12:09:06,155 [1] INFO Bluecap.Lib.Game_Design.Interfaces.BaseGameGenerator - Best novel game code in generation: 1(1/3):
+BOARD 7 7
+CAP DELETE
+WIN MATCH LINE 3
+LOSE MATCH LINE 3
+
 Best novel game rules found in generation 1(1/3): 
 Players take turns placing pieces on the 7x7 board.
 
 If a player places a piece at either end of a line of opponent pieces, the captured pieces are removed from play.
 
-A player wins If they have at least 6 pieces in a sequence (in any direction)
+A player wins If they have at least 3 pieces in a sequence (in any direction)
 
-A player loses If they have at least 6 pieces in a sequence (in any direction)
-With score: 0.78
+A player loses If they have at least 3 pieces in a sequence (in any direction)
+With score: 0.98
+2021-06-16 12:18:06,220 [1] INFO Bluecap.Lib.Game_Design.Interfaces.BaseGameGenerator - Best novel game code in generation: 2(1/3):
+BOARD 9 7
+CAP DELETE
+WIN MATCH LINE 3
+LOSE MATCH LINE 3
+
+Best novel game rules found in generation 2(1/3): 
+Players take turns placing pieces on the 9x7 board.
+
+If a player places a piece at either end of a line of opponent pieces, the captured pieces are removed from play.
+
+A player wins If they have at least 3 pieces in a sequence (in any direction)
+
+A player loses If they have at least 3 pieces in a sequence (in any direction)
+With score: 0.98
+2021-06-16 12:21:35,937 [1] INFO Bluecap.Lib.Game_Design.Interfaces.BaseGameGenerator - Best novel game code in generation: 3(1/3):
+BOARD 9 7
+CAP DELETE
+WIN MATCH LINE 3
+LOSE MATCH LINE 3
+
+Best novel game rules found in generation 3(1/3): 
+Players take turns placing pieces on the 9x7 board.
+
+If a player places a piece at either end of a line of opponent pieces, the captured pieces are removed from play.
+
+A player wins If they have at least 3 pieces in a sequence (in any direction)
+
+A player loses If they have at least 3 pieces in a sequence (in any direction)
+With score: 0.98
+2021-06-18 04:12:40,568 [1] INFO Bluecap.Lib.Game_Design.Interfaces.BaseGameGenerator - Starting game generation run...
+2021-06-18 04:15:08,736 [1] INFO Bluecap.Lib.Game_Design.Interfaces.BaseGameGenerator - Starting game generation run...
+2021-06-18 04:16:31,817 [1] INFO Bluecap.Lib.Game_Design.Interfaces.BaseGameGenerator - Starting game generation run...
+2021-06-18 04:18:48,476 [1] INFO Bluecap.Lib.Game_Design.Interfaces.BaseGameGenerator - Starting game generation run...
+2021-06-18 04:35:25,379 [1] INFO Bluecap.Lib.Game_Design.Interfaces.BaseGameGenerator - Starting game generation run...
+2021-06-18 04:43:33,340 [1] INFO Bluecap.Lib.Game_Design.Interfaces.BaseGameGenerator - Starting game generation run...
+2021-06-18 04:45:05,914 [1] INFO Bluecap.Lib.Game_Design.Interfaces.BaseGameGenerator - Starting game generation run...
+2021-06-18 04:50:25,303 [1] INFO Bluecap.Lib.Game_Design.Interfaces.BaseGameGenerator - Starting game generation run...
+2021-06-18 04:50:49,884 [1] INFO Bluecap.Lib.Game_Design.Interfaces.BaseGameGenerator - Starting game generation run...
+2021-06-18 04:51:04,268 [1] INFO Bluecap.Lib.Game_Design.Interfaces.BaseGameGenerator - Starting game generation run...
+2021-06-18 05:03:46,137 [1] INFO Bluecap.Lib.Game_Design.Interfaces.BaseGameGenerator - Starting game generation run...
+2021-06-18 05:04:04,628 [1] INFO Bluecap.Lib.Game_Design.Interfaces.BaseGameGenerator - Starting game generation run...
+2021-06-18 05:04:34,495 [1] INFO Bluecap.Lib.Game_Design.Interfaces.BaseGameGenerator - Starting game generation run...
+2021-06-18 05:04:56,200 [1] INFO Bluecap.Lib.Game_Design.Interfaces.BaseGameGenerator - Starting game generation run...
+2021-06-18 05:09:31,142 [1] INFO Bluecap.Lib.Game_Design.Interfaces.BaseGameGenerator - Starting game generation run...
+2021-06-18 05:12:13,202 [1] INFO Bluecap.Lib.Game_Design.Interfaces.BaseGameGenerator - Starting game generation run...
+2021-06-18 05:14:14,073 [1] INFO Bluecap.Lib.Game_Design.Interfaces.BaseGameGenerator - Starting game generation run...

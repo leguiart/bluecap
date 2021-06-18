@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Bluecap.Lib.Extensions
+namespace Bluecap.Lib.Utils.Extensions
 {
     public static class ListExtensions
     {

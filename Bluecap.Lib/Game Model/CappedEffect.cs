@@ -22,7 +22,6 @@ namespace Bluecap.Lib.Game_Model
         *  account holes and such. However it obviously offers richer mechanics - try adding it
         *  yourself and experimenting!
         */
-
         public TriggeredEffect onCapEffect;
 
         public CappedEffect(TriggeredEffect e)
