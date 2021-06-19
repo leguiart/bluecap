@@ -81,7 +81,7 @@ namespace Bluecap.ConsoleApp
             Direction[] allowedLineDirections = new Direction[] { Direction.LINE, Direction.CARDINAL, Direction.ROW, Direction.COL };
             int minLineLength = 3;
             int maxLineLength = 6;
-            int[] pieceCountTargets = new int[] { 5, 10, 15, 18, 20 };
+            int[] pieceCountTargets = new int[] { 5, 10, 15, 20, 25 };
             GenerationSettings generationSettings = new GenerationSettings()
             {
                 minBoardDimension = minBoardDimension,
@@ -98,7 +98,12 @@ namespace Bluecap.ConsoleApp
                 pieceCountTargets = pieceCountTargets,
             };
             IEvaluator<BaseGame> evaluator = new PhenotypicEvaluator();
-            GeneticAlgorithmGameGenerator generator = new GeneticAlgorithmGameGenerator(generationSettings, evaluator, populationSize: 20, maxIter: 30, runs: 3, pm: 0.2f);
+            NoveltyEvaluator noveltyEvaluator = new NoveltyEvaluator();
+            GeneticAlgorithmGameGenerator generator = null;
+            if(args[0] == "goal")
+                generator = new GoalOrientedGAGenerator(generationSettings, evaluator, noveltyEvaluator, SelectionMethod.TOURNAMENT, populationSize: 20, maxIter: 30, runs: 3, pm: 0.05f, pc : 0.85f, elitism:0.1f);
+            else if(args[0] == "novelty")
+                generator = new NoveltyOrientedGAGenerator(generationSettings, evaluator, noveltyEvaluator, SelectionMethod.TOURNAMENT, populationSize: 20, maxIter: 30, runs: 3, pm: 0.05f, pc: 0.85f, elitism: 0.1f);
             generator.StartGenerationProcess();
         }
     }

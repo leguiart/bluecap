@@ -1,4 +1,5 @@
-﻿using Bluecap.Lib.Game_Design.Generators;
+﻿using Bluecap.Lib.Game_Design.Evaluators;
+using Bluecap.Lib.Game_Design.Generators;
 using Bluecap.Lib.Game_Model;
 using log4net;
 using System;
@@ -20,16 +21,18 @@ namespace Bluecap.Lib.Game_Design.Interfaces
         protected static string kTAG = "BaseGameGeneratorLib: ";
         protected GenerationSettings settings;
         protected IEvaluator<BaseGame> gameEvaluator;
+        protected NoveltyEvaluator noveltyEvaluator;
 
         string goodScoreColor = "<#33aa33>";
         string averageScoreColor = "<#E57517>";
         string badScoreColor = "<#CF1200>";
         string regularText = "<#3D2607>";
 
-        public BaseGameGenerator(GenerationSettings settings, IEvaluator<BaseGame> gameEvaluator)
+        public BaseGameGenerator(GenerationSettings settings, IEvaluator<BaseGame> gameEvaluator, NoveltyEvaluator noveltyEvaluator)
         {
             this.settings = settings;
             this.gameEvaluator = gameEvaluator;
+            this.noveltyEvaluator = noveltyEvaluator;
             //logger.Log(kTAG, "Starting game generation run...");
             //StartCoroutine(StartGenerationProcess());
             //StartCoroutine(EstimatedTimeUpdater());

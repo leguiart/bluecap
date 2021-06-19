@@ -12,114 +12,227 @@ BOARD 4 5
 MATCH LINE 3 FLIP
 CAP FLIP
 WIN MATCH CARDINAL 4
-LOSE MATCH LINE 3
+LOSE MATCH LINE 32021-06-18 11:28:54,985 [1] INFO Bluecap.Lib.Game_Design.Interfaces.BaseGameGenerator - Starting game generation run...
+2021-06-18 11:56:00,627 [1] INFO Bluecap.Lib.Game_Design.Interfaces.BaseGameGenerator - Best distinct game code in generation: 1(1/3):
+BOARD 5 4
+FALL RIGHT
+WIN MATCH LINE 3
+LOSE MATCH LINE 6
 
-2021-06-16 07:45:34,409 [1] INFO Bluecap.Lib.Game_Design.Interfaces.BaseGameGenerator - Starting game generation run...
-2021-06-16 08:14:28,212 [1] INFO Bluecap.Lib.Game_Design.Interfaces.BaseGameGenerator - Best novel game code in generation: 1(1/3):
-BOARD 5 5
+Best distinct game rules found in generation 1(1/3): 
+Players take turns placing pieces on the 5x4 board.
+
+All pieces on the board fall right.
+
+A player wins If they have at least 3 pieces in a sequence (in any direction)
+
+A player loses If they have at least 6 pieces in a sequence (in any direction)
+With score: 0.98
+2021-06-18 12:22:02,117 [1] INFO Bluecap.Lib.Game_Design.Interfaces.BaseGameGenerator - Starting game generation run...
+2021-06-18 13:00:52,301 [1] INFO Bluecap.Lib.Game_Design.Interfaces.BaseGameGenerator - Starting game generation run...
+2021-06-18 13:50:09,604 [1] INFO Bluecap.Lib.Game_Design.Interfaces.BaseGameGenerator - Best distinct game code in generation: 1(1/3):
+BOARD 11 11
 FALL LEFT
 WIN MATCH COL 4
-LOSE MATCH COL 4
+LOSE COUNT 10
 
-Best novel game rules found in generation 1(1/3): 
-Players take turns placing pieces on the 5x5 board.
+Best distinct game rules found in generation 1(1/3): 
+Players take turns placing pieces on the 11x11 board.
 
 All pieces on the board fall left.
 
 A player wins If they have at least 4 pieces in a sequence (in a vertical column only)
 
-A player loses If they have at least 4 pieces in a sequence (in a vertical column only)
-With score: 0.66
-2021-06-16 08:33:48,612 [1] INFO Bluecap.Lib.Game_Design.Interfaces.BaseGameGenerator - Best novel game code in generation: 2(1/3):
-BOARD 5 5
+A player loses if they have 10 pieces on the board.
+With score: 0.86
+2021-06-18 13:58:07,095 [1] INFO Bluecap.Lib.Game_Design.Interfaces.BaseGameGenerator - Best distinct game code in generation: 2(1/3):
+BOARD 11 6
+MATCH LINE 3 FLIP
+FALL UP
+CAP DELETE
+WIN COUNT 15
+LOSE COUNT 10
+
+Best distinct game rules found in generation 2(1/3): 
+Players take turns placing pieces on the 11x6 board.
+
+If there are at least 3 pieces of the same type in a sequence (in any direction), then the pieces flip to the other player's colour.
+All pieces on the board fall up.
+If a player places a piece at either end of a line of opponent pieces, the captured pieces are removed from play.
+
+A player wins if they have 15 pieces on the board.
+
+A player loses if they have 10 pieces on the board.
+With score: 0.86
+2021-06-18 14:03:50,320 [1] INFO Bluecap.Lib.Game_Design.Interfaces.BaseGameGenerator - Best distinct game code in generation: 3(1/3):
+BOARD 12 5
 FALL LEFT
 WIN COUNT 10
-LOSE MATCH COL 4
+LOSE MATCH ROW 6
 
-Best novel game rules found in generation 2(1/3): 
-Players take turns placing pieces on the 5x5 board.
+Best distinct game rules found in generation 3(1/3): 
+Players take turns placing pieces on the 12x5 board.
 
 All pieces on the board fall left.
 
 A player wins if they have 10 pieces on the board.
 
-A player loses If they have at least 4 pieces in a sequence (in a vertical column only)
-With score: 0.7
-2021-06-16 08:48:20,203 [1] INFO Bluecap.Lib.Game_Design.Interfaces.BaseGameGenerator - Best novel game code in generation: 3(1/3):
-BOARD 4 5
-FALL LEFT
+A player loses If they have at least 6 pieces in a sequence (in a horizontal row only)
+With score: 0.86
+2021-06-18 14:12:12,774 [1] INFO Bluecap.Lib.Game_Design.Interfaces.BaseGameGenerator - Best distinct game code in generation: 4(1/3):
+BOARD 12 5
+CAP DELETE
 WIN COUNT 10
-LOSE MATCH COL 4
+LOSE COUNT 15
 
-Best novel game rules found in generation 3(1/3): 
-Players take turns placing pieces on the 4x5 board.
+Best distinct game rules found in generation 4(1/3): 
+Players take turns placing pieces on the 12x5 board.
 
-All pieces on the board fall left.
+If a player places a piece at either end of a line of opponent pieces, the captured pieces are removed from play.
 
 A player wins if they have 10 pieces on the board.
 
-A player loses If they have at least 4 pieces in a sequence (in a vertical column only)
-With score: 0.7
-2021-06-16 12:02:22,660 [1] INFO Bluecap.Lib.Game_Design.Interfaces.BaseGameGenerator - Starting game generation run...
-2021-06-16 12:09:06,155 [1] INFO Bluecap.Lib.Game_Design.Interfaces.BaseGameGenerator - Best novel game code in generation: 1(1/3):
-BOARD 7 7
-CAP DELETE
-WIN MATCH LINE 3
-LOSE MATCH LINE 3
+A player loses if they have 15 pieces on the board.
+With score: 0.86
+2021-06-18 14:28:45,053 [1] INFO Bluecap.Lib.Game_Design.Interfaces.BaseGameGenerator - Best distinct game code in generation: 5(1/3):
+BOARD 12 5
+MATCH LINE 3 FLIP
+FALL DOWN
+WIN MATCH CARDINAL 5
+LOSE COUNT 10
 
-Best novel game rules found in generation 1(1/3): 
-Players take turns placing pieces on the 7x7 board.
+Best distinct game rules found in generation 5(1/3): 
+Players take turns placing pieces on the 12x5 board.
+
+If there are at least 3 pieces of the same type in a sequence (in any direction), then the pieces flip to the other player's colour.
+All pieces on the board fall down.
+
+A player wins If they have at least 5 pieces in a sequence (horizontal or vertical lines only)
+
+A player loses if they have 10 pieces on the board.
+With score: 0.86
+2021-06-18 14:36:53,008 [1] INFO Bluecap.Lib.Game_Design.Interfaces.BaseGameGenerator - Best distinct game code in generation: 6(1/3):
+BOARD 12 6
+CAP DELETE
+WIN COUNT 5
+LOSE MATCH CARDINAL 5
+
+Best distinct game rules found in generation 6(1/3): 
+Players take turns placing pieces on the 12x6 board.
 
 If a player places a piece at either end of a line of opponent pieces, the captured pieces are removed from play.
 
-A player wins If they have at least 3 pieces in a sequence (in any direction)
+A player wins if they have 5 pieces on the board.
 
-A player loses If they have at least 3 pieces in a sequence (in any direction)
+A player loses If they have at least 5 pieces in a sequence (horizontal or vertical lines only)
+With score: 0.86
+2021-06-18 15:51:54,880 [1] INFO Bluecap.Lib.Game_Design.Interfaces.BaseGameGenerator - Starting game generation run...
+2021-06-18 16:14:54,564 [1] INFO Bluecap.Lib.Game_Design.Interfaces.BaseGameGenerator - Best distinct game code in generation: 1(1/3):
+BOARD 3 11
+MATCH LINE 3 DELETE
+WIN COUNT 5
+LOSE COUNT 5
+
+Best distinct game rules found in generation 1(1/3): 
+Players take turns placing pieces on the 3x11 board.
+
+If there are at least 3 pieces of the same type in a sequence (in any direction), then the pieces are removed from play.
+
+A player wins if they have 5 pieces on the board.
+
+A player loses if they have 5 pieces on the board.
+With score: 0.9
+2021-06-18 18:39:20,584 [1] INFO Bluecap.Lib.Game_Design.Interfaces.BaseGameGenerator - Starting game generation run...
+2021-06-18 19:06:37,000 [1] INFO Bluecap.Lib.Game_Design.Interfaces.BaseGameGenerator - Best distinct game code in generation: 1(1/3):
+BOARD 8 3
+CAP FLIP
+WIN COUNT 5
+LOSE MATCH ROW 5
+
+Best distinct game rules found in generation 1(1/3): 
+Players take turns placing pieces on the 8x3 board.
+
+If a player places a piece at either end of a line of opponent pieces, the captured pieces flip to the player's colour.
+
+A player wins if they have 5 pieces on the board.
+
+A player loses If they have at least 5 pieces in a sequence (in a horizontal row only)
+With score: 1
+2021-06-18 19:27:50,111 [1] INFO Bluecap.Lib.Game_Design.Interfaces.BaseGameGenerator - Best distinct game code in generation: 2(1/3):
+BOARD 8 3
+CAP FLIP
+FALL RIGHT
+WIN COUNT 5
+LOSE MATCH ROW 5
+
+Best distinct game rules found in generation 2(1/3): 
+Players take turns placing pieces on the 8x3 board.
+
+If a player places a piece at either end of a line of opponent pieces, the captured pieces flip to the player's colour.
+All pieces on the board fall right.
+
+A player wins if they have 5 pieces on the board.
+
+A player loses If they have at least 5 pieces in a sequence (in a horizontal row only)
+With score: 1
+2021-06-18 19:29:49,610 [1] INFO Bluecap.Lib.Game_Design.Interfaces.BaseGameGenerator - Starting game generation run...
+2021-06-18 19:55:04,527 [1] INFO Bluecap.Lib.Game_Design.Interfaces.BaseGameGenerator - Best distinct game code in generation: 1(1/3):
+BOARD 12 9
+CAP FLIP
+WIN COUNT 5
+LOSE COUNT 25
+
+Best distinct game rules found in generation 1(1/3): 
+Players take turns placing pieces on the 12x9 board.
+
+If a player places a piece at either end of a line of opponent pieces, the captured pieces flip to the player's colour.
+
+A player wins if they have 5 pieces on the board.
+
+A player loses if they have 25 pieces on the board.
 With score: 0.98
-2021-06-16 12:18:06,220 [1] INFO Bluecap.Lib.Game_Design.Interfaces.BaseGameGenerator - Best novel game code in generation: 2(1/3):
-BOARD 9 7
-CAP DELETE
-WIN MATCH LINE 3
+2021-06-18 20:10:24,609 [1] INFO Bluecap.Lib.Game_Design.Interfaces.BaseGameGenerator - Best distinct game code in generation: 2(1/3):
+BOARD 12 7
+MATCH LINE 3 CASCADE
+WIN COUNT 10
 LOSE MATCH LINE 3
 
-Best novel game rules found in generation 2(1/3): 
-Players take turns placing pieces on the 9x7 board.
+Best distinct game rules found in generation 2(1/3): 
+Players take turns placing pieces on the 12x7 board.
 
-If a player places a piece at either end of a line of opponent pieces, the captured pieces are removed from play.
+If there are at least 3 pieces of the same type in a sequence (in any direction), then pieces connected to the latest move flip to the other player's colour.
 
-A player wins If they have at least 3 pieces in a sequence (in any direction)
+A player wins if they have 10 pieces on the board.
 
 A player loses If they have at least 3 pieces in a sequence (in any direction)
 With score: 0.98
-2021-06-16 12:21:35,937 [1] INFO Bluecap.Lib.Game_Design.Interfaces.BaseGameGenerator - Best novel game code in generation: 3(1/3):
-BOARD 9 7
-CAP DELETE
-WIN MATCH LINE 3
+2021-06-18 20:16:47,649 [1] INFO Bluecap.Lib.Game_Design.Interfaces.BaseGameGenerator - Best distinct game code in generation: 3(1/3):
+BOARD 12 5
+FALL UP
+WIN COUNT 15
 LOSE MATCH LINE 3
 
-Best novel game rules found in generation 3(1/3): 
-Players take turns placing pieces on the 9x7 board.
+Best distinct game rules found in generation 3(1/3): 
+Players take turns placing pieces on the 12x5 board.
 
-If a player places a piece at either end of a line of opponent pieces, the captured pieces are removed from play.
+All pieces on the board fall up.
 
-A player wins If they have at least 3 pieces in a sequence (in any direction)
+A player wins if they have 15 pieces on the board.
 
 A player loses If they have at least 3 pieces in a sequence (in any direction)
 With score: 0.98
-2021-06-18 04:12:40,568 [1] INFO Bluecap.Lib.Game_Design.Interfaces.BaseGameGenerator - Starting game generation run...
-2021-06-18 04:15:08,736 [1] INFO Bluecap.Lib.Game_Design.Interfaces.BaseGameGenerator - Starting game generation run...
-2021-06-18 04:16:31,817 [1] INFO Bluecap.Lib.Game_Design.Interfaces.BaseGameGenerator - Starting game generation run...
-2021-06-18 04:18:48,476 [1] INFO Bluecap.Lib.Game_Design.Interfaces.BaseGameGenerator - Starting game generation run...
-2021-06-18 04:35:25,379 [1] INFO Bluecap.Lib.Game_Design.Interfaces.BaseGameGenerator - Starting game generation run...
-2021-06-18 04:43:33,340 [1] INFO Bluecap.Lib.Game_Design.Interfaces.BaseGameGenerator - Starting game generation run...
-2021-06-18 04:45:05,914 [1] INFO Bluecap.Lib.Game_Design.Interfaces.BaseGameGenerator - Starting game generation run...
-2021-06-18 04:50:25,303 [1] INFO Bluecap.Lib.Game_Design.Interfaces.BaseGameGenerator - Starting game generation run...
-2021-06-18 04:50:49,884 [1] INFO Bluecap.Lib.Game_Design.Interfaces.BaseGameGenerator - Starting game generation run...
-2021-06-18 04:51:04,268 [1] INFO Bluecap.Lib.Game_Design.Interfaces.BaseGameGenerator - Starting game generation run...
-2021-06-18 05:03:46,137 [1] INFO Bluecap.Lib.Game_Design.Interfaces.BaseGameGenerator - Starting game generation run...
-2021-06-18 05:04:04,628 [1] INFO Bluecap.Lib.Game_Design.Interfaces.BaseGameGenerator - Starting game generation run...
-2021-06-18 05:04:34,495 [1] INFO Bluecap.Lib.Game_Design.Interfaces.BaseGameGenerator - Starting game generation run...
-2021-06-18 05:04:56,200 [1] INFO Bluecap.Lib.Game_Design.Interfaces.BaseGameGenerator - Starting game generation run...
-2021-06-18 05:09:31,142 [1] INFO Bluecap.Lib.Game_Design.Interfaces.BaseGameGenerator - Starting game generation run...
-2021-06-18 05:12:13,202 [1] INFO Bluecap.Lib.Game_Design.Interfaces.BaseGameGenerator - Starting game generation run...
-2021-06-18 05:14:14,073 [1] INFO Bluecap.Lib.Game_Design.Interfaces.BaseGameGenerator - Starting game generation run...
+2021-06-18 23:46:35,793 [1] INFO Bluecap.Lib.Game_Design.Interfaces.BaseGameGenerator - Best distinct game code in generation: 4(1/3):
+BOARD 11 4
+CAP FLIP
+WIN MATCH ROW 4
+LOSE MATCH CARDINAL 3
+
+Best distinct game rules found in generation 4(1/3): 
+Players take turns placing pieces on the 11x4 board.
+
+If a player places a piece at either end of a line of opponent pieces, the captured pieces flip to the player's colour.
+
+A player wins If they have at least 4 pieces in a sequence (in a horizontal row only)
+
+A player loses If they have at least 3 pieces in a sequence (horizontal or vertical lines only)
+With score: 0.98

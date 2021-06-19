@@ -266,6 +266,7 @@ namespace Bluecap.Lib.Game_Design.Evaluators
             GenerationScores["highSkillBalanceScore"].Add(highSkillBalanceScore);
             //GenerationScores.Add(new Dictionary<string, float> { { "playerBiasScore", playerBiasScore }, { "greedIsGoodScore", greedIsGoodScore }, { "skillIsBetterScore", skillIsBetterScore }, { "drawsAreBadScore", drawsAreBadScore }, { "highSkillBalanceScore", highSkillBalanceScore } });
             game.evaluatedScore = (playerBiasScore + greedIsGoodScore + skillIsBetterScore + drawsAreBadScore + highSkillBalanceScore) / 5f;
+            Console.WriteLine($"Evaluation Score (game: {index}): " + game.evaluatedScore);
         }
 
     }
