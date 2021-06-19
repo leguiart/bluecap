@@ -103,20 +103,20 @@ namespace Bluecap.Lib.Game_Design.Evaluators
 
             if (turn >= turnLimit)
             {
-                Console.WriteLine("Game tied: turn limit exceeded.");
+                Console.WriteLine($"(Game-{index}) Game tied: turn limit exceeded.");
             }
             else
             {
                 switch (game.endStatus)
                 {
                     case 1:
-                        Console.WriteLine("Player 1 wins (in "+turn+" turns)");
+                        Console.WriteLine($"(Game-{index}) Player 1 wins (in " +turn+" turns)");
                         break;
                     case 2:
-                        Console.WriteLine("Player 2 wins (in "+turn+" turns)");
+                        Console.WriteLine($"(Game-{index}) Player 2 wins (in " +turn+" turns)");
                         break;
                     case 3:
-                        Console.WriteLine("Game tied (in "+turn+" turns)");
+                        Console.WriteLine($"(Game-{index}) Game tied (in " +turn+" turns)");
                         break;
                 }
             }
@@ -159,7 +159,7 @@ namespace Bluecap.Lib.Game_Design.Evaluators
 
             //scoresSoFar = "First Play Bias: " + UIManager.Instance.ToScore(playerBiasScore) + "\n";
             //yield return UIManager.Instance.SetCurrentScoresText(scoresSoFar);
-            Console.WriteLine($"Random vs. Random done! (game: {index})");
+            Console.WriteLine($"(Game-{index}) Random vs. Random done! (game: {index})");
 
             //? We could also add in a measure of 'decisiveness' - i.e. games shouldn't end in draws.
             //? However for random agents this might happen just because they aren't very good.
@@ -186,7 +186,7 @@ namespace Bluecap.Lib.Game_Design.Evaluators
             }
 
             greedIsGoodScore = 1 - ((float)randomAgentWon / greedyRandomMatches);
-            Console.WriteLine($"Random vs. Greedy done! (game: {index})");
+            Console.WriteLine($"(Game-{index}) Random vs. Greedy done! (game: {index})");
 
             //scoresSoFar += "Simple Beats Random: " + UIManager.Instance.ToScore(greedIsGoodScore) + "\n";
             //yield return UIManager.Instance.SetCurrentScoresText(scoresSoFar);
@@ -215,7 +215,7 @@ namespace Bluecap.Lib.Game_Design.Evaluators
             }
 
             skillIsBetterScore = (float)mctsAgentWon / greedySkilledMatches;
-            Console.WriteLine($"MCTS vs. Greedy done! (game: {index})");
+            Console.WriteLine($"(Game-{index}) MCTS vs. Greedy done! (game: {index})");
 
             //scoresSoFar += "Clever Beats Simple: " + UIManager.Instance.ToScore(skillIsBetterScore) + "\n";
             //yield return UIManager.Instance.SetCurrentScoresText(scoresSoFar);
@@ -245,7 +245,7 @@ namespace Bluecap.Lib.Game_Design.Evaluators
 
             drawsAreBadScore = 1 - ((float)drawnGames / skilledMirrorMatches);
             highSkillBalanceScore = Math.Abs(firstPlayerWon - secondPlayerWon) / skilledMirrorMatches;
-            Console.WriteLine($"MCTS vs. MCTS done! (game: {index})");
+            Console.WriteLine($"(Game-{index}) MCTS vs. MCTS done! (game: {index})");
 
             //yield return UIManager.Instance.SetCurrentScoresText(scoresSoFar + "Avoid Draws: " + UIManager.Instance.ToScore(drawsAreBadScore) + "\n" +
             //"High Skill Mirror Matchup: " + UIManager.Instance.ToScore(highSkillBalanceScore) + "\n");
@@ -254,11 +254,11 @@ namespace Bluecap.Lib.Game_Design.Evaluators
             //? some scores are more important than others, or we could partition them into "must-haves"
             //? and "nice-to-haves". I discuss this in the tutorial video.
 
-            Console.WriteLine($"Random vs. Random (game: {index}): " + playerBiasScore);
-            Console.WriteLine($"Greedy vs. Random (game: {index}): " + greedIsGoodScore);
-            Console.WriteLine($"MCTS vs. Greedy (game: {index}): " + skillIsBetterScore);
-            Console.WriteLine($"MCTS vs. MCTS (draws) (game: {index}): " + drawsAreBadScore);
-            Console.WriteLine($"MCTS vs. MCTS (win balance) (game: {index}): " + highSkillBalanceScore);
+            Console.WriteLine($"(Game-{index}) Random vs. Random: " + playerBiasScore);
+            Console.WriteLine($"(Game-{index}) Greedy vs. Random: " + greedIsGoodScore);
+            Console.WriteLine($"(Game-{index}) MCTS vs. Greedy: " + skillIsBetterScore);
+            Console.WriteLine($"(Game-{index}) MCTS vs. MCTS (draws): " + drawsAreBadScore);
+            Console.WriteLine($"(Game-{index}) MCTS vs. MCTS (win balance): " + highSkillBalanceScore);
             GenerationScores["playerBiasScore"].Add(playerBiasScore);
             GenerationScores["greedIsGoodScore"].Add(greedIsGoodScore);
             GenerationScores["skillIsBetterScore"].Add(skillIsBetterScore);
