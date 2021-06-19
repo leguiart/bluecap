@@ -26,13 +26,9 @@ namespace Bluecap.Lib.Game_Design.Generators
         BaseGame bestGame, mostNovelGame;
         List<BaseGame> Population;
 
-
         readonly List<(string, float, float)> BestDistinctGames;
         readonly List<float> bestScoresOfRun = new List<float>(), mostNovelScoresOfRun = new List<float>();      
         readonly Dictionary<string, List<float>> averageScoresOfRun = new Dictionary<string, List<float>>() { {"noveltyScore", new List<float>() }, { "evaluatedScore", new List<float>() }, { "playerBiasScore", new List<float>() }, { "greedIsGoodScore", new List<float>() }, { "skillIsBetterScore", new List<float>() }, { "drawsAreBadScore", new List<float>() }, { "highSkillBalanceScore", new List<float>() } };
-
-
-        
 
         public GeneticAlgorithmGameGenerator(GenerationSettings settings, IEvaluator<BaseGame> gameEvaluator, NoveltyEvaluator noveltyEvaluator, SelectionMethod selectionMethod, int populationSize = 10, int maxIter = 100, int runs = 1, float pc = 0.8f, float pm = 0.01f, float elitism = 0f) : base(settings, gameEvaluator, noveltyEvaluator) 
         {
@@ -71,13 +67,15 @@ namespace Bluecap.Lib.Game_Design.Generators
 
         public override void StartGenerationProcess()
         {
-            logger.Info("Starting game generation run...");
+            logger.Info("Starting ga game generation run with the following parameters:\n");
+            logger.Info($"Selection method: {selectionMethod}\n" +
+                $"pm: {pm}\n" +
+                $"pc: {pc}" +
+                $"elitismNum: {elitismNum}\n" +
+                $"populationSize: {populationSize}\n");
             for (int run = 1; run <= runs; run++)
             {
-
-                bestScoresOfRun.Clear();
-                foreach(var kv in averageScoresOfRun)
-                    averageScoresOfRun[kv.Key].Clear();
+                //Initialize and clean all relevant variables
                 evaluationsSoFar = 0;
                 bestScore = float.MinValue;
                 //Overestimate initial evaluation time as: (100 turns per game) * (max time per turn) * (number of games to test)
@@ -87,7 +85,12 @@ namespace Bluecap.Lib.Game_Design.Generators
                 Population.Clear();
                 BestDistinctGames.Clear();
                 Population = Populate();
+                bestScoresOfRun.Clear();
+                foreach (var kv in averageScoresOfRun)
+                    averageScoresOfRun[kv.Key].Clear();
                 int its = 1;
+
+
                 while (its <= maxIter)
                 {
 
@@ -104,7 +107,7 @@ namespace Bluecap.Lib.Game_Design.Generators
                 bestScores = bestScores.TrimEnd(',', ' ');
                 logger.Info(bestScores);
 
-                logger.Info($"Novelty scores for run({run}/{runs}): ");
+                logger.Info($"Most novel scores for run({run}/{runs}): ");
                 bestScores = string.Empty;               
                 foreach(var score in mostNovelScoresOfRun)
                     bestScores += score.ToString() + ", ";
@@ -161,21 +164,21 @@ namespace Bluecap.Lib.Game_Design.Generators
                 if (p < pc)
                 {
                     int cross_point = rand.Next(0, Population[0].Genotype.Count - 1);
-                    List<object> son1 = Population[2 * i + elitismNum].Genotype.Select((s, index) =>
+                    List<object> son1 = Population[2 * i].Genotype.Select((s, index) =>
                     {
                         if (index > cross_point)
-                            s = Population[2 * i + elitismNum + 1].Genotype[index];
+                            s = Population[2 * i + 1].Genotype[index];
                         return s;
                     }).ToList();
-                    List<object> son2 = Population[2 * i + elitismNum + 1].Genotype.Select((s, index) =>
+                    List<object> son2 = Population[2 * i + 1].Genotype.Select((s, index) =>
                     {
                         if (index > cross_point)
-                            s = Population[2 * i + elitismNum].Genotype[index];
+                            s = Population[2 * i].Genotype[index];
                         return s;
                     }).ToList();
 
-                    Population[2 * i + elitismNum].Genotype = son1;
-                    Population[2 * i + elitismNum + 1].Genotype = son2;
+                    Population[2 * i].Genotype = son1;
+                    Population[2 * i + 1].Genotype = son2;
                 }
             }
         }
@@ -268,10 +271,10 @@ namespace Bluecap.Lib.Game_Design.Generators
                     var cProbSel = Population.Select(s => sum += GetFitnessMetric(s) / fitnessSum).ToList();
                     System.Random rand = new System.Random((int)DateTime.Now.Ticks & 0x0000FFFF);
                     var probs = new List<float>();
-                    for (int i = 0; i < Population.Count() - elitismNum; i++)
+                    for (int i = 0; i < Population.Count - elitismNum; i++)
                         probs.Add((float)rand.NextDouble());
 
-                    for (int k = 0; k < probs.Count - elitismNum; k++)
+                    for (int k = 0; k < probs.Count; k++)
                     {
                         int j = cProbSel.BinarySearch2(probs[k]);
                         Population[k] = Population[j];
@@ -298,11 +301,11 @@ namespace Bluecap.Lib.Game_Design.Generators
                     sum = 0;
                     fitnessSum = Population.Select(s => GetFitnessMetric(s)).Sum();
                     rand = new System.Random((int)DateTime.Now.Ticks & 0x0000FFFF);
-                    var prob = fitnessSum / (Population.Count - elitismNum);
+                    var prob = fitnessSum / Population.Count;
                     var start = (float)rand.NextDouble();
                     var pointers = new List<float>();
                     cProbSel = Population.Select(s => sum += GetFitnessMetric(s) / fitnessSum).ToList();
-                    for (int i = 0; i < Population.Count; i++)
+                    for (int i = 0; i < Population.Count - elitismNum; i++)
                         pointers.Add(start * prob + i * prob);
                     for (int i = 0; i <  Population.Count - elitismNum; i++)
                     {

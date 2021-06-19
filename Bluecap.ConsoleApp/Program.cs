@@ -100,10 +100,11 @@ namespace Bluecap.ConsoleApp
             IEvaluator<BaseGame> evaluator = new PhenotypicEvaluator();
             NoveltyEvaluator noveltyEvaluator = new NoveltyEvaluator();
             GeneticAlgorithmGameGenerator generator = null;
+            var parametersToTest = new List<(float, float, float)>() { };
             if(args[0] == "goal")
-                generator = new GoalOrientedGAGenerator(generationSettings, evaluator, noveltyEvaluator, SelectionMethod.TOURNAMENT, populationSize: 20, maxIter: 30, runs: 3, pm: 0.05f, pc : 0.85f, elitism:0.1f);
+                generator = new GoalOrientedGAGenerator(generationSettings, evaluator, noveltyEvaluator, SelectionMethod.TOURNAMENT, populationSize: 11, maxIter: 5, runs: 1, pm: 0.05f, pc : 0.8f, elitism:0.1f);
             else if(args[0] == "novelty")
-                generator = new NoveltyOrientedGAGenerator(generationSettings, evaluator, noveltyEvaluator, SelectionMethod.TOURNAMENT, populationSize: 20, maxIter: 30, runs: 3, pm: 0.05f, pc: 0.85f, elitism: 0.1f);
+                generator = new NoveltyOrientedGAGenerator(generationSettings, evaluator, noveltyEvaluator, SelectionMethod.TOURNAMENT, populationSize: 11, maxIter: 5, runs: 1, pm: 0.05f, pc: 0.8f, elitism: 0.1f);
             generator.StartGenerationProcess();
         }
     }
