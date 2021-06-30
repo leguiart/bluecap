@@ -1,6 +1,7 @@
 ﻿using Bluecap.Lib.Game_Design.Evaluators;
 using Bluecap.Lib.Game_Design.Generators;
 using Bluecap.Lib.Game_Model;
+using CCSystem.Lib.Interfaces;
 using log4net;
 using System;
 using System.Collections.Generic;
@@ -10,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Bluecap.Lib.Game_Design.Interfaces
 {
-    public abstract class BaseGameGenerator
+    public abstract class BaseGameGenerator : IGenerator<BaseGame>
     {
         protected string bestRulesCode;
         protected bool gameTestingFinished;
@@ -21,14 +22,14 @@ namespace Bluecap.Lib.Game_Design.Interfaces
         protected static string kTAG = "BaseGameGeneratorLib: ";
         protected GenerationSettings settings;
         protected IEvaluator<BaseGame> gameEvaluator;
-        protected NoveltyEvaluator noveltyEvaluator;
+        protected GenotypeNoveltyEvaluator noveltyEvaluator;
 
         string goodScoreColor = "<#33aa33>";
         string averageScoreColor = "<#E57517>";
         string badScoreColor = "<#CF1200>";
         string regularText = "<#3D2607>";
 
-        public BaseGameGenerator(GenerationSettings settings, IEvaluator<BaseGame> gameEvaluator, NoveltyEvaluator noveltyEvaluator)
+        public BaseGameGenerator(GenerationSettings settings, IEvaluator<BaseGame> gameEvaluator, GenotypeNoveltyEvaluator noveltyEvaluator)
         {
             this.settings = settings;
             this.gameEvaluator = gameEvaluator;
@@ -76,5 +77,9 @@ namespace Bluecap.Lib.Game_Design.Interfaces
             sc += regularText;
             return sc;
         }
+
+        public abstract IEnumerable<BaseGame> GammaGeneratorFunction(IEnumerable<BaseGame> population);
+
+        public abstract IEnumerable<BaseGame> Populate();
     }
 }

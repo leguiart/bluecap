@@ -4,6 +4,8 @@ using Bluecap.Lib.Game_Design.Generators;
 using Bluecap.Lib.Game_Design.Interfaces;
 using Bluecap.Lib.Game_Model;
 using Bluecap.Lib.Utils;
+using CCSystem.Lib;
+using CCSystem.Lib.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -97,15 +99,76 @@ namespace Bluecap.ConsoleApp
                 maxLineLength = maxLineLength,
                 pieceCountTargets = pieceCountTargets,
             };
-            IEvaluator<BaseGame> evaluator = new PhenotypicEvaluator();
-            NoveltyEvaluator noveltyEvaluator = new NoveltyEvaluator();
+            bool rr = args.Contains("rr");
+            bool gr = args.Contains("gr");
+            bool mg = args.Contains("mg");
+            bool mctsMcts = args.Contains("mm");
+            bool mctsMctsSkilled = args.Contains("mml");
+            SelectionMethod selection = (SelectionMethod)(Convert.ToInt32(args[0]));
+            int populationSize = Convert.ToInt32(args[1]);
+            int maxIter = Convert.ToInt32(args[2]);
+            int runs = Convert.ToInt32(args[3]);
+            float pm = (float)Convert.ToDouble(args[4]);
+            float pc = (float)Convert.ToDouble(args[5]);
+            float elitism = (float)Convert.ToDouble(args[6]);
+            GenotypeNoveltyEvaluator noveltyEvaluator = new GenotypeNoveltyEvaluator();
+            GenotypeQualityEvaluator qualityEvaluator = new GenotypeQualityEvaluator();
+            IEvaluator<BaseGame> evaluator = new PhenotypicEvaluator(noveltyEvaluator, maxIter: maxIter, randomRandom : rr, randomGreedy: gr, mctsGreedy:mg, mctsMcts: mctsMcts, mctsMctsSkilled: mctsMctsSkilled);
+            GenotypicEvaluator genotypicEvaluator = new GenotypicEvaluator(qualityEvaluator, noveltyEvaluator, maxIter: maxIter, genotypeScoreThresh:0.95f);
+            
+
             GeneticAlgorithmGameGenerator generator = null;
-            var parametersToTest = new List<(float, float, float)>() { };
-            if(args[0] == "goal")
-                generator = new GoalOrientedGAGenerator(generationSettings, evaluator, noveltyEvaluator, SelectionMethod.TOURNAMENT, populationSize: 11, maxIter: 5, runs: 1, pm: 0.05f, pc : 0.8f, elitism:0.1f);
-            else if(args[0] == "novelty")
-                generator = new NoveltyOrientedGAGenerator(generationSettings, evaluator, noveltyEvaluator, SelectionMethod.TOURNAMENT, populationSize: 11, maxIter: 5, runs: 1, pm: 0.05f, pc: 0.8f, elitism: 0.1f);
-            generator.StartGenerationProcess();
+            //var parametersToTest = new List<(float, float, float)>() { (0.15f, 0.7f, 0.1f), (0.15f, 0.7f, 0f), (0.2f, 0.7f, 0.1f), (0.2f, 0.7f, 0f), (0.15f, 0.75f, 0.1f), (0.15f, 0.75f, 0f), (0.2f, 0.75f, 0.1f), (0.2f, 0.75f, 0f) };
+            //var parametersToTest = new List<(float, float, float)>() { (0.1f, 0.8f, 0.1f), (0.1f, 0.8f, 0f), (0.2f, 0.8f, 0.1f), (0.2f, 0.8f, 0f), (0.1f, 0.85f, 0.1f), (0.1f, 0.85f, 0f), (0.2f, 0.85f, 0.1f), (0.2f, 0.85f, 0f) };
+            if(args[0] == "param_select")
+            {
+                var parametersToTest = new List<(float, float, float)>() { (0.1f, 0.8f, 0.1f), (0.2f, 0.8f, 0.1f), (0.1f, 0.85f, 0.1f), (0.2f, 0.85f, 0.1f) };
+                var selectionMethods = new SelectionMethod[] { SelectionMethod.PROPORTIONAL, SelectionMethod.TOURNAMENT, SelectionMethod.SUS };
+                foreach (var selectionMethod in selectionMethods)
+                {
+                    foreach (var param in parametersToTest)
+                    {
+                        if (args[1] == "goal")
+                            generator = new GoalOrientedGAGenerator(generationSettings, evaluator, noveltyEvaluator, selectionMethod, populationSize: 11, maxIter: 5, runs: 1, pm: param.Item1, pc: param.Item2, elitism: param.Item3);
+                        //generator.StartGenerationProcess();
+                        else if (args[1] == "novelty")
+                            generator = new NoveltyOrientedGAGenerator(generationSettings, evaluator, noveltyEvaluator, selectionMethod, populationSize: 48, maxIter: 200, runs: 2, pm: param.Item1, pc: param.Item2, elitism: param.Item3);
+                        generator.StartGenerationProcess();
+                    }
+
+                }
+
+                generator.StartGenerationProcess();
+            }
+            else if(args.Contains("experiments"))
+            {
+                if(args.Contains("goal"))
+                {
+                    generator = new GoalOrientedGAGenerator(generationSettings, evaluator, noveltyEvaluator, selection, populationSize: populationSize, maxIter: maxIter, runs: runs, pm: pm, pc: pc, elitism: elitism);
+                    generator.StartGenerationProcess();
+                    return;
+                }
+                else if(args.Contains("novelty")) 
+                {
+                    generator = new NoveltyOrientedGAGenerator(generationSettings, evaluator, noveltyEvaluator, selection, populationSize: populationSize, maxIter: maxIter, runs: runs, pm: pm, pc: pc, elitism: elitism);
+                    generator.StartGenerationProcess();
+                    return;
+                }else if (args.Contains("CC"))
+                {
+                    evaluator = new PhenotypicEvaluator(noveltyEvaluator, maxIter: maxIter, randomRandom: rr, randomGreedy: gr, mctsGreedy: mg, mctsMcts: mctsMcts, mctsMctsSkilled: mctsMctsSkilled, logs:true);
+                    GeneticAlgorithmGameGenerator generator2 = new GoalOrientedGAGenerator(generationSettings, evaluator, noveltyEvaluator, selection, populationSize: populationSize, maxIter: maxIter, runs: runs, pm: 0f, pc: pc, elitism: elitism);
+                    generator = new GenotypeGAGenerator(generationSettings, evaluator, noveltyEvaluator, selection, populationSize: populationSize, maxIter: maxIter, runs: runs, pm: pm, pc: pc, elitism: elitism);
+                    CCGenericProcessT2<BaseGame> ccSystem = new CCGenericProcessT2<BaseGame>(generator, genotypicEvaluator, evaluator);
+                    ccSystem.DoCreativeProcess();
+                    return;
+                }
+
+                generator = new GoalOrientedGAGenerator(generationSettings, evaluator, noveltyEvaluator, selection, populationSize: populationSize, maxIter: maxIter, runs: runs, pm: pm, pc: pc, elitism: elitism); ;
+                generator.StartGenerationProcess();
+                generator = new NoveltyOrientedGAGenerator(generationSettings, evaluator, noveltyEvaluator, selection, populationSize: populationSize, maxIter: maxIter, runs: runs, pm: pm, pc: pc, elitism: elitism); ;
+                generator.StartGenerationProcess();
+            }
+
         }
     }
 }

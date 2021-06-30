@@ -1,0 +1,6 @@
+D:\Users\luis_\Documents\bluecap\CCSystem.Lib\bin\Release\CCSystem.Lib.dll
+D:\Users\luis_\Documents\bluecap\CCSystem.Lib\bin\Release\CCSystem.Lib.pdb
+D:\Users\luis_\Documents\bluecap\CCSystem.Lib\obj\Release\CCSystem.Lib.csproj.CoreCompileInputs.cache
+D:\Users\luis_\Documents\bluecap\CCSystem.Lib\obj\Release\CCSystem.Lib.dll
+D:\Users\luis_\Documents\bluecap\CCSystem.Lib\obj\Release\CCSystem.Lib.pdb
+D:\Users\luis_\Documents\bluecap\CCSystem.Lib\obj\Release\CCSystem.Lib.csprojAssemblyReference.cache

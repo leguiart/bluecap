@@ -22,11 +22,11 @@ namespace Bluecap.Lib.Game_Model
         *  account holes and such. However it obviously offers richer mechanics - try adding it
         *  yourself and experimenting!
         */
-        public TriggeredEffect onCapEffect;
+        public TriggeredEffect Effect;
 
         public CappedEffect(TriggeredEffect e)
         {
-            onCapEffect = e;
+            Effect = e;
             //* Another extension idea: adding in a min/max/exact length for the capture.
             //* Pente is an example of a game with this rule - you can only cap lines of 2.
         }
@@ -175,11 +175,11 @@ namespace Bluecap.Lib.Game_Model
             //Now apply effect to the capped pieces
             foreach (Point p in matchList)
             {
-                if (onCapEffect == TriggeredEffect.DELETE)
+                if (Effect == TriggeredEffect.DELETE)
                 {
                     g.DeletePiece(p.x, p.y);
                 }
-                else if (onCapEffect == TriggeredEffect.FLIP)
+                else if (Effect == TriggeredEffect.FLIP)
                 {
                     g.FlipPiece(p.x, p.y);
                 }
@@ -188,13 +188,13 @@ namespace Bluecap.Lib.Game_Model
 
         override public string ToCode()
         {
-            return "CAP " + onCapEffect.ToString();
+            return "CAP " + Effect.ToString();
         }
 
         public override string Print()
         {
             string exp = "If a player places a piece at either end of a line of opponent pieces, ";
-            switch (onCapEffect)
+            switch (Effect)
             {
                 case TriggeredEffect.DELETE:
                     exp += "the captured pieces are removed from play.";

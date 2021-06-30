@@ -1349,21 +1349,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   aiOpponent: 1
   TimeAllottedPerTurn: 1
-  aiVersus: 0
+  aiVersus: 1
   agentOne: 0
   agentTwo: 0
   timeBetweenActions: 1
   loadFromString: 1
-  stringToLoad: 'BOARD 4 5
+  stringToLoad: 'BOARD 10 8
 
-    MATCH LINE 3 FLIP
+    MATCH CARDINAL 4 DELETE
 
-    CAP FLIP
+    WIN MATCH COL 3
 
-    WIN MATCH
-    CARDINAL 4
-
-    LOSE MATCH LINE 3'
+    LOSE
+    MATCH ROW 5'
   templateBoardPiece: {fileID: 8930443472705603134, guid: cac6256b727d841d4888c807111b01fd,
     type: 3}
   templatePlayerPiece: {fileID: 6003727866043622954, guid: 82c8d84f6360c4cba8448c11e372fbaa,

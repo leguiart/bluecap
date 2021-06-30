@@ -40,6 +40,8 @@ namespace Bluecap.Lib.Game_Model
         //having to re-evaluate it. You can see this used in the Scrappy Game Generator.
         public float evaluatedScore;
         public float noveltyScore;
+        public float qualityScore;
+        public float genotypeScore;
         //Deciding how to flag wins always gets me. For this I've gone for:
         //1 = Player 1 win
         //2 = Player 2 win
@@ -65,6 +67,24 @@ namespace Bluecap.Lib.Game_Model
             state = new GameState(w, h);
             //interactiveMode = false;
             Genotype = new List<object>() { w, h, new Condition(), new Condition(),  new List<Effect>()};
+        }
+
+        public BaseGame Copy()
+        {
+            var genotypeCpy = new object[Genotype.Count];
+            Genotype.CopyTo(genotypeCpy);
+            return new BaseGame(state.width, state.height)
+            {
+                evaluatedScore = evaluatedScore,
+                noveltyScore = noveltyScore,
+                qualityScore = qualityScore,
+                genotypeScore = genotypeScore,
+                endStatus = endStatus,
+                state = state,
+                savedGameState = savedGameState,
+                savedEndStatus = savedEndStatus,
+                Genotype = genotypeCpy.ToList()
+            };
         }
 
         public int CurrentPlayer() {
@@ -414,6 +434,7 @@ namespace Bluecap.Lib.Game_Model
                     //the constructor arguments differently to how I represent it in the design language.
                     //Little things like this can trip you up! I decided to leave it in here as an example.
                     (TriggeredEffect)System.Enum.Parse(typeof(TriggeredEffect), s[3]),
+                    (Direction)System.Enum.Parse(typeof(Direction), s[1]),
                     int.Parse(s[2]));
             }
             if (s[0] == "FALL") {

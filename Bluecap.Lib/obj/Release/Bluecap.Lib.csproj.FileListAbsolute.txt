@@ -1,0 +1,16 @@
+D:\Users\luis_\Documents\bluecap\Bluecap.Lib\bin\Release\log4net.config
+D:\Users\luis_\Documents\bluecap\Bluecap.Lib\bin\Release\Bluecap.Lib.dll
+D:\Users\luis_\Documents\bluecap\Bluecap.Lib\bin\Release\Bluecap.Lib.pdb
+D:\Users\luis_\Documents\bluecap\Bluecap.Lib\bin\Release\log4net.dll
+D:\Users\luis_\Documents\bluecap\Bluecap.Lib\bin\Release\UnityEngine.CoreModule.dll
+D:\Users\luis_\Documents\bluecap\Bluecap.Lib\bin\Release\UnityEngine.SharedInternalsModule.dll
+D:\Users\luis_\Documents\bluecap\Bluecap.Lib\bin\Release\log4net.xml
+D:\Users\luis_\Documents\bluecap\Bluecap.Lib\bin\Release\UnityEngine.CoreModule.xml
+D:\Users\luis_\Documents\bluecap\Bluecap.Lib\bin\Release\UnityEngine.SharedInternalsModule.xml
+D:\Users\luis_\Documents\bluecap\Bluecap.Lib\obj\Release\Bluecap.Lib.csprojAssemblyReference.cache
+D:\Users\luis_\Documents\bluecap\Bluecap.Lib\obj\Release\Bluecap.Lib.csproj.CoreCompileInputs.cache
+D:\Users\luis_\Documents\bluecap\Bluecap.Lib\obj\Release\Bluecap.Lib.csproj.CopyComplete
+D:\Users\luis_\Documents\bluecap\Bluecap.Lib\obj\Release\Bluecap.Lib.dll
+D:\Users\luis_\Documents\bluecap\Bluecap.Lib\obj\Release\Bluecap.Lib.pdb
+D:\Users\luis_\Documents\bluecap\Bluecap.Lib\bin\Release\CCSystem.Lib.dll
+D:\Users\luis_\Documents\bluecap\Bluecap.Lib\bin\Release\CCSystem.Lib.pdb

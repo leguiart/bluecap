@@ -4,7 +4,7 @@ namespace Bluecap.Lib.Game_Model
 {
     public class PieceCountCondition : Condition
     {
-        public int countTarget;
+        public int PieceCount;
 
         /*
             If you wanted to expand this, you'd probably add a little enum for LESS THAN, GREATER THAN, etc.
@@ -12,7 +12,7 @@ namespace Bluecap.Lib.Game_Model
         */
         public PieceCountCondition(int count)
         {
-            countTarget = count;
+            PieceCount = count;
         }
 
         public override bool Check(BaseGame g, Player playerType)
@@ -27,17 +27,17 @@ namespace Bluecap.Lib.Game_Model
                         count++;
                 }
             }
-            return count == countTarget;
+            return count == PieceCount;
         }
 
         override public string ToCode()
         {
-            return "COUNT " + countTarget;
+            return "COUNT " + PieceCount;
         }
 
         public override string Print()
         {
-            return "if they have " + countTarget + " pieces on the board.";
+            return "if they have " + PieceCount + " pieces on the board.";
         }
 
     }

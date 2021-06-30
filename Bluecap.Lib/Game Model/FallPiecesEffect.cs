@@ -4,16 +4,16 @@ namespace Bluecap.Lib.Game_Model
 {
     public class FallPiecesEffect : Effect
     {
-        public Heading fallDirection;
+        public Heading Heading;
 
         public FallPiecesEffect(Heading h)
         {
-            fallDirection = h;
+            Heading = h;
         }
 
         override public string ToCode()
         {
-            return "FALL " + fallDirection.ToString();
+            return "FALL " + Heading.ToString();
         }
 
         override public void Apply(BaseGame g)
@@ -22,7 +22,7 @@ namespace Bluecap.Lib.Game_Model
 
             //We need slightly different methods for each direction, 
             //because we need to start from a different end each time
-            if (fallDirection == Heading.DOWN)
+            if (Heading == Heading.DOWN)
             {
                 for (int i = 0; i < (int)g.Genotype[0]; i++)
                 {
@@ -30,7 +30,7 @@ namespace Bluecap.Lib.Game_Model
                     {
                         if (g.state.Value(i, j) > 0)
                         {
-                            drop = FindDrop(g, i, j, fallDirection);
+                            drop = FindDrop(g, i, j, Heading);
                             //Update the piece, assuming it needs to
                             if (drop.x != i || drop.y != j)
                                 g.MovePiece(i, j, drop.x, drop.y);
@@ -38,7 +38,7 @@ namespace Bluecap.Lib.Game_Model
                     }
                 }
             }
-            if (fallDirection == Heading.UP || fallDirection == Heading.LEFT)
+            if (Heading == Heading.UP || Heading == Heading.LEFT)
             {
                 for (int i = 0; i < (int)g.Genotype[0]; i++)
                 {
@@ -46,7 +46,7 @@ namespace Bluecap.Lib.Game_Model
                     {
                         if (g.state.Value(i, j) > 0)
                         {
-                            drop = FindDrop(g, i, j, fallDirection);
+                            drop = FindDrop(g, i, j, Heading);
                             //Update the piece, assuming it needs to
                             if (drop.x != i || drop.y != j)
                                 g.MovePiece(i, j, drop.x, drop.y);
@@ -54,7 +54,7 @@ namespace Bluecap.Lib.Game_Model
                     }
                 }
             }
-            if (fallDirection == Heading.RIGHT)
+            if (Heading == Heading.RIGHT)
             {
                 for (int i = (int)g.Genotype[0] - 1; i >= 0; i--)
                 {
@@ -62,7 +62,7 @@ namespace Bluecap.Lib.Game_Model
                     {
                         if (g.state.Value(i, j) > 0)
                         {
-                            drop = FindDrop(g, i, j, fallDirection);
+                            drop = FindDrop(g, i, j, Heading);
                             //Update the piece, assuming it needs to
                             if (drop.x != i || drop.y != j)
                                 g.MovePiece(i, j, drop.x, drop.y);
@@ -75,7 +75,7 @@ namespace Bluecap.Lib.Game_Model
 
         public Point FindDrop(BaseGame game, int x, int y, Heading dir)
         {
-            if (fallDirection == Heading.UP)
+            if (Heading == Heading.UP)
             {
                 for (int i = y + 1; i < (int)game.Genotype[1]; i++)
                 {
@@ -86,7 +86,7 @@ namespace Bluecap.Lib.Game_Model
                 }
                 return new Point(x, (int)game.Genotype[1] - 1);
             }
-            else if (fallDirection == Heading.DOWN)
+            else if (Heading == Heading.DOWN)
             {
                 for (int i = y - 1; i >= 0; i--)
                 {
@@ -97,7 +97,7 @@ namespace Bluecap.Lib.Game_Model
                 }
                 return new Point(x, 0);
             }
-            else if (fallDirection == Heading.RIGHT)
+            else if (Heading == Heading.RIGHT)
             {
                 for (int i = x + 1; i < (int)game.Genotype[0]; i++)
                 {
@@ -108,7 +108,7 @@ namespace Bluecap.Lib.Game_Model
                 }
                 return new Point((int)game.Genotype[0] - 1, y);
             }
-            else if (fallDirection == Heading.LEFT)
+            else if (Heading == Heading.LEFT)
             {
                 for (int i = x - 1; i >= 0; i--)
                 {
@@ -124,7 +124,7 @@ namespace Bluecap.Lib.Game_Model
 
         public override string Print()
         {
-            return "All pieces on the board fall " + fallDirection.ToString().ToLower() + ".";
+            return "All pieces on the board fall " + Heading.ToString().ToLower() + ".";
         }
 
     }

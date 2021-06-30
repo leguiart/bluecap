@@ -75,7 +75,11 @@ LOSE MATCH LINE 3";
             if (loadFromString)
             {
                 currentGame = BaseGame.FromCode(stringToLoad);
-                SetupBoard((InteractiveGame)currentGame);
+                InteractiveGame interactiveGame = new InteractiveGame((int)currentGame.Genotype[0], (int)currentGame.Genotype[1]);
+                interactiveGame.Genotype[2] = currentGame.Genotype[2];
+                interactiveGame.Genotype[3] = currentGame.Genotype[3];
+                interactiveGame.Genotype[4] = currentGame.Genotype[4];
+                SetupBoard(interactiveGame);
             }
         }
 

@@ -5,30 +5,30 @@ namespace Bluecap.Lib.Game_Model
     public class InARowCondition : Condition
     {
 
-        Direction checkDirection;
-        public int targetLength;
+        public Direction Direction;
+        public int Length;
 
         public InARowCondition(Direction d, int length)
         {
-            targetLength = length;
-            checkDirection = d;
+            Length = length;
+            Direction = d;
         }
 
         //? Does any valid line of the valid length exist, for any player
         override public bool Check(BaseGame g, Player p)
         {
-            return g.FindLines(checkDirection, targetLength, p, true).Count > 0;
+            return g.FindLines(Direction, Length, p, true).Count > 0;
         }
 
         override public string ToCode()
         {
-            return "MATCH " + checkDirection.ToString() + " " + targetLength;
+            return "MATCH " + Direction.ToString() + " " + Length;
         }
 
         public override string Print()
         {
-            string exp = "If they have at least " + targetLength + " pieces in a sequence ";
-            switch (checkDirection)
+            string exp = "If they have at least " + Length + " pieces in a sequence ";
+            switch (Direction)
             {
                 case Direction.LINE:
                     exp += "(in any direction)";
